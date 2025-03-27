@@ -23,10 +23,9 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: colors.primary,
-    // borderRadius: 8,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    padding: 16,
+    padding: 8,
   },
   bottomFilter: {
     display: "flex",

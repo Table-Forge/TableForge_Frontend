@@ -84,7 +84,6 @@ export const styles = StyleSheet.create({
     gap: 4,
   },
   campaignList: {
-    paddingRight: 8,
     borderRadius: 8,
     width: "100%",
   },
