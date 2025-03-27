@@ -24,7 +24,7 @@ export const CampaignItem = ({ data }: { data: ICampaign }) => {
           params: { id: data.id.toString() },
         })
       }
-      style={styles.wrapper}
+      style={({ pressed }) => [styles.wrapper, pressed && { opacity: 0.7 }]}
     >
       <ThemedText
         weight="bold"

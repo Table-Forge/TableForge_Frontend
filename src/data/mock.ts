@@ -115,7 +115,6 @@ const carousel = [
 ];
 
 const advantages = [
-  { text: "Todas as funcionalidades do Plano Plebeu" },
   {
     text: "Criar e salvar personagens ilimitados na página de perfil",
   },
@@ -125,6 +124,7 @@ const advantages = [
     text: "Destaque nas campanhas criadas por você, aparecendo por primeiro na listagem",
   },
   { text: "Campanhas privadas" },
+  { text: "Todas as funcionalidades do Plano Plebeu" },
 ];
 
 export { advantages, campaignList, carousel };

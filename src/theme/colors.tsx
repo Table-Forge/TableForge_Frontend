@@ -5,4 +5,5 @@ export const DEFAULT_COLORS = {
   white: "#f8f8f8",
   black: "#000",
   background: "#2a2a45",
+  danger: "#be0300",
 };
