@@ -1,12 +1,18 @@
 import { CampaignItem } from "@/src/components/campaign-item/campaign-item";
-import { MainContainer } from "@/src/components/main-container/main-container";
+import { mainContainerStyles } from "@/src/components/main-container/main-container.styles";
 import { NotificationButton } from "@/src/components/notification-button/notification-button";
 import { SearchBar } from "@/src/components/search-bar/search-bar";
 import { ThemedText } from "@/src/components/themed-text/themed-text";
 import { campaignList } from "@/src/data/mock";
 import { useLocation } from "@/src/hooks/useLocation";
 import { DEFAULT_COLORS } from "@/src/theme/colors";
-import { StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  View,
+} from "react-native";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 
 const colors = DEFAULT_COLORS;
@@ -14,37 +20,52 @@ const colors = DEFAULT_COLORS;
 export default function Search() {
   //adicionar update ao puxar pra baixo pra baixo, com loading
 
-  const { location } = useLocation();
+  const { location, loading } = useLocation();
+  const locationString = `${location?.city || ""}${
+    location?.city && location?.region ? ", " : ""
+  }${location?.region || ""}`;
 
   return (
-    <MainContainer>
-      <View style={styles.topWrapper}>
-        <View style={styles.locationWrapper}>
-          <ThemedText style={{ fontSize: 14 }}>Localização</ThemedText>
-          <View style={styles.locationText}>
-            <FontAwesome6 name="location-dot" color={colors.secondary} />
-            <ThemedText style={{ fontSize: 16 }} weight="bold">
-              {location?.city}, {location?.region}
-            </ThemedText>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={mainContainerStyles.container}>
+        <View style={styles.topWrapper}>
+          <View style={styles.locationWrapper}>
+            <ThemedText style={{ fontSize: 14 }}>Localização</ThemedText>
+            <View style={styles.locationText}>
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <>
+                  <FontAwesome6
+                    name="location-dot"
+                    color={colors.secondary}
+                    size={16}
+                  />
+                  <ThemedText style={{ fontSize: 16 }} weight="bold">
+                    {locationString}
+                  </ThemedText>
+                </>
+              )}
+            </View>
           </View>
+          <NotificationButton />
         </View>
-        <NotificationButton />
-      </View>
 
-      <SearchBar />
+        <SearchBar />
 
-      <View style={styles.campaignList}>
-        {campaignList.map((campaign) => (
-          <CampaignItem key={campaign.id} data={campaign} />
-        ))}
+        <FlatList
+          style={styles.campaignList}
+          data={campaignList}
+          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+          renderItem={({ item }) => <CampaignItem key={item.id} data={item} />}
+        />
       </View>
-    </MainContainer>
+    </SafeAreaView>
   );
 }
 
 export const styles = StyleSheet.create({
   topWrapper: {
-    flex: 1,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
@@ -63,7 +84,8 @@ export const styles = StyleSheet.create({
     gap: 4,
   },
   campaignList: {
-    flex: 1,
-    gap: 10,
+    paddingRight: 8,
+    borderRadius: 8,
+    width: "100%",
   },
 });

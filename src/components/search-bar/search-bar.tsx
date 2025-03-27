@@ -54,11 +54,11 @@ export const SearchBar = () => {
   useEffect(() => {
     if (!location) return;
 
-    const loc = location.district
-      ? `${location.district}, ${location.city}`
-      : location.city;
+    const locationString = `${location?.district || ""}${
+      location?.district && location?.city ? ", " : ""
+    }${location?.city || ""}`;
 
-    hookForm.setValue("location", loc || "");
+    hookForm.setValue("location", locationString || "");
   }, [location]);
 
   return (

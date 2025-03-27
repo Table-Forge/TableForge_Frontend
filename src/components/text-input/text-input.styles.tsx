@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
     borderColor: colors.secondary,
     borderWidth: 1,
     paddingHorizontal: 16,
-    paddingVertical: 8,
   },
   borderError: {
     borderColor: colors.danger,

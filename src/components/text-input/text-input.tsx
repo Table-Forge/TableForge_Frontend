@@ -27,7 +27,7 @@ export const DefaultTextInput = ({
       <TextInput
         style={styles.input}
         placeholderTextColor={"rgba(255,255,255,0.3)"}
-        editable={props.editable && type !== "location"}
+        editable={type !== "location"}
         {...props}
       />
     </View>
