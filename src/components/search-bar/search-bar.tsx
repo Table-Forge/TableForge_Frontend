@@ -13,7 +13,7 @@ import { Label } from "../label/label";
 import { RadioOptions } from "../multiple-options/multiple-options";
 import { ProgressInput } from "../progress-input/progress-input";
 import { DefaultTextInput } from "../text-input/text-input";
-import { ISearchSchema, searchSchema } from "./search-bar.schema";
+import { ISearchSchema, SearchSchema } from "./search-bar.schema";
 import { styles } from "./search-bar.styles";
 
 const colors = DEFAULT_COLORS;
@@ -24,7 +24,7 @@ export const SearchBar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const hookForm = useForm({
-    resolver: zodResolver(searchSchema),
+    resolver: zodResolver(SearchSchema),
     defaultValues: {
       search: "",
       location: location?.city || "",
@@ -124,7 +124,7 @@ export const SearchBar = () => {
             )}
           />
           {errors?.location?.message && (
-            <ErrorMessage text={errors?.location?.message as string} />
+            <ErrorMessage text={errors?.location?.message?.toString()} />
           )}
         </View>
 
@@ -144,7 +144,7 @@ export const SearchBar = () => {
           />
 
           {errors?.level?.message && (
-            <ErrorMessage text={errors?.level?.message as string} />
+            <ErrorMessage text={errors?.level?.message?.toString()} />
           )}
         </View>
 
@@ -158,7 +158,7 @@ export const SearchBar = () => {
             max={10}
           />
           {errors?.playerQty?.message && (
-            <ErrorMessage text={errors?.playerQty?.message as string} />
+            <ErrorMessage text={errors?.playerQty?.message?.toString()} />
           )}
         </View>
 

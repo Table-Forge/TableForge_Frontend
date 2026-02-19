@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -11,17 +12,19 @@ const api = axios.create({
 
 api.interceptors.request.use(
   async (config) => {
-    // const token = await getStorageItem('token');
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    const authDataSerialized = await SecureStore.getItemAsync("auth_data");
+
+    if (authDataSerialized) {
+      const { token } = JSON.parse(authDataSerialized);
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
 
     console.log(`[API] Request: ${config.method?.toUpperCase()} ${config.url}`);
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error),
 );
 
 api.interceptors.response.use(
@@ -31,7 +34,7 @@ api.interceptors.response.use(
       console.error("Sessão expirada ou não autorizado");
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export { api };

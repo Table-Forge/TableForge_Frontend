@@ -1,8 +1,6 @@
 import { DEFAULT_COLORS } from "@/src/theme/colors";
 import { StyleSheet } from "react-native";
 
-const colors = DEFAULT_COLORS;
-
 export const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 16,
@@ -13,22 +11,22 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
   },
   primary: {
-    backgroundColor: colors.primary,
-    borderColor: colors.secondary,
+    backgroundColor: DEFAULT_COLORS.primary,
+    borderColor: DEFAULT_COLORS.secondary,
   },
   secondary: {
-    backgroundColor: colors.secondary,
-    borderColor: colors.primary,
+    backgroundColor: DEFAULT_COLORS.secondary,
+    borderColor: DEFAULT_COLORS.primary,
   },
   tertiary: {
-    backgroundColor: colors.tertiary,
-    borderColor: colors.primary,
+    backgroundColor: DEFAULT_COLORS.tertiary,
+    borderColor: DEFAULT_COLORS.primary,
   },
   disabled: {
     backgroundColor: "#CBD5E0",
   },
   text: {
-    color: colors.white,
+    color: DEFAULT_COLORS.white,
     fontSize: 16,
     fontWeight: "bold",
     textTransform: "uppercase",

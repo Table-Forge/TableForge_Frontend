@@ -8,7 +8,7 @@ interface ButtonProps {
   children?: React.ReactNode;
   onPress: () => void;
   disabled?: boolean;
-  loading?: boolean;
+  isLoading?: boolean;
   variant?: "primary" | "secondary" | "tertiary";
 }
 
@@ -17,34 +17,32 @@ export const Button = ({
   children,
   onPress,
   disabled = false,
-  loading = false,
+  isLoading = false,
   variant = "primary",
 }: ButtonProps) => {
+  const variantStyles = {
+    primary: styles.primary,
+    secondary: styles.secondary,
+    tertiary: styles.tertiary,
+  };
+
   return (
     <TouchableOpacity
       style={[
         styles.button,
-        variant === "primary"
-          ? styles.primary
-          : variant === "secondary"
-          ? styles.secondary
-          : styles.tertiary,
-        disabled && styles.disabled,
+        variantStyles[variant],
+        (disabled || isLoading) && styles.disabled,
       ]}
       onPress={onPress}
-      disabled={disabled || loading}
+      disabled={disabled || isLoading}
       activeOpacity={0.7}
     >
-      {loading ? (
-        <ActivityIndicator color="#fff" />
+      {isLoading ? (
+        <ActivityIndicator color="#f8f8f8" />
+      ) : text ? (
+        <ThemedText style={styles.text}>{text}</ThemedText>
       ) : (
-        <>
-          {text ? (
-            <ThemedText style={styles.text}>{text}</ThemedText>
-          ) : children ? (
-            children
-          ) : null}
-        </>
+        children
       )}
     </TouchableOpacity>
   );

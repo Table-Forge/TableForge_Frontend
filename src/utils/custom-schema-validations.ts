@@ -12,7 +12,7 @@ const stringRequired = z.preprocess(
   },
   z
     .string()
-    .refine((val) => val.trim() !== "", { message: ERROR_MESSAGE.required })
+    .refine((val) => val.trim() !== "", { message: ERROR_MESSAGE.required }),
 );
 
 const numberRequired = z.preprocess(
@@ -22,7 +22,7 @@ const numberRequired = z.preprocess(
   },
   z.coerce
     .number()
-    .refine((val) => val > 0, { message: ERROR_MESSAGE.required })
+    .refine((val) => val > 0, { message: ERROR_MESSAGE.required }),
 );
 
 const stringOrStringArrayRequired = z.union([
@@ -58,16 +58,26 @@ const dateRequired = z.preprocess(
     if (arg === null || arg === undefined || arg === "") {
       return "";
     }
+
+    if (arg instanceof Date) {
+      if (isNaN(arg.getTime())) return "invalid";
+      return arg.toISOString().split("T")[0];
+    }
+
     return arg;
   },
   z.union([
-    z.string().refine((val) => val.trim() !== "", {
-      message: ERROR_MESSAGE.required,
-    }),
+    z
+      .string()
+      .trim()
+      .nonempty(ERROR_MESSAGE.required)
+      .refine((val) => dayjs(val, "YYYY-MM-DD", true).isValid(), {
+        message: ERROR_MESSAGE.validate,
+      }),
     z.date().refine((val) => dayjs(val, "YYYY-MM-DD", true).isValid(), {
       message: ERROR_MESSAGE.validate,
     }),
-  ])
+  ]),
 );
 
 const emailRequired = z.preprocess(
@@ -75,7 +85,7 @@ const emailRequired = z.preprocess(
   z
     .string()
     .min(1, { message: ERROR_MESSAGE.required })
-    .email({ message: "Formato de e-mail inválido" })
+    .email({ message: "Formato de e-mail inválido" }),
 );
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -122,7 +132,7 @@ const addIssuesIfInvalid = (
   ctx: z.RefinementCtx,
   value: unknown,
   validation: z.ZodTypeAny,
-  path: (string | number)[]
+  path: (string | number)[],
 ) => {
   const result = validation.safeParse(value);
   if (!result.success) {
@@ -135,13 +145,38 @@ const addIssuesIfInvalid = (
   }
 };
 
+// Optional fields
+
 const numberOptional = z.coerce.number().optional();
+
 const stringOptional = z.coerce.string().optional();
-const dateOptional = z.union([z.string(), z.date(), z.null()]).optional();
+
+const dateOptional = z.preprocess(
+  (arg) => {
+    if (arg === null || arg === undefined || arg === "") {
+      return undefined;
+    }
+
+    if (arg instanceof Date) {
+      return isNaN(arg.getTime()) ? undefined : arg;
+    }
+
+    if (typeof arg === "string") {
+      const parsed = dayjs(arg, "YYYY-MM-DD", true);
+      return parsed.isValid() ? parsed.toDate() : undefined;
+    }
+
+    return undefined;
+  },
+  z.union([z.string().optional(), z.date().optional()]),
+);
+
 const stringOrStringArrayOptional = z
   .union([z.string(), z.array(z.string())])
   .optional();
+
 const numberArrayOptional = z.array(z.number()).default([]).optional();
+
 const fileArrayOptional = z.array(fileSchema).optional();
 
 export {

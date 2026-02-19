@@ -3,6 +3,9 @@ import { Stack } from "expo-router";
 import { DefaultTheme } from "../theme/theme";
 import React from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider } from "../context/auth";
+import { toastConfig } from "@/src/config/toast-config";
+import Toast from "react-native-toast-message";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -16,12 +19,30 @@ const queryClient = new QueryClient({
 export default function RootLayout() {
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider value={DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="campaign/[id]" options={{ headerShown: false }} />
-        </Stack>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider value={DefaultTheme}>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              gestureEnabled: true,
+              gestureDirection: "horizontal",
+              animation: "slide_from_right",
+              fullScreenGestureEnabled: true,
+            }}
+          >
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen
+              name="campaign/[id]"
+              options={{
+                presentation: "card",
+              }}
+            />
+            <Stack.Screen name="(auth)" />
+          </Stack>
+
+          <Toast config={toastConfig} />
+        </ThemeProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

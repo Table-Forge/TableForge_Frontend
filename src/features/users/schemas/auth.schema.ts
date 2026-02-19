@@ -2,8 +2,8 @@ import { UserSchema } from "@/src/features/users/schemas/user.schema";
 import { z } from "zod";
 
 export const LoginRequestSchema = z.object({
-  login: z.string().min(1, "O login é obrigatório"),
-  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  login: z.coerce.string().trim().min(1, "O login é obrigatório"),
+  password: z.coerce.string().trim().min(1, "A senha é obrigatória"),
 });
 
 export const LoginResponseSchema = z.object({

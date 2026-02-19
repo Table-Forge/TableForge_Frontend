@@ -5,9 +5,12 @@ import {
   LoginResponseSchema,
 } from "@/src/features/users/schemas/auth.schema";
 
+const ENDPOINT = "/users";
+
 export const AuthService = {
   login: async (credentials: ILoginRequest): Promise<ILoginResponse> => {
-    const { data } = await api.post("/auth/login", credentials);
-    return LoginResponseSchema.parse(data);
+    const { data } = await api.post(`${ENDPOINT}/authenticate`, credentials);
+
+    return data;
   },
 };
