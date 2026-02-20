@@ -8,12 +8,13 @@ import { ICONS } from "./tab-bar.constants";
 import { styles } from "./tab-bar.styles";
 
 import Entypo from "react-native-vector-icons/Entypo";
+import { MaterialTopTabBarProps } from "@react-navigation/material-top-tabs";
 
 export const TabBar = ({
   state,
   descriptors,
   navigation,
-}: BottomTabBarProps) => {
+}: MaterialTopTabBarProps) => {
   const colors = useDefaultColors();
   const { buildHref } = useLinkBuilder();
 
@@ -46,8 +47,8 @@ export const TabBar = ({
             options.tabBarLabel !== undefined
               ? options.tabBarLabel
               : options.title !== undefined
-              ? options.title
-              : route.name;
+                ? options.title
+                : route.name;
 
           if (["_sitemap", "+not-found"].includes(route.name)) return null;
 
@@ -82,20 +83,23 @@ export const TabBar = ({
               onPress={onPress}
               onLongPress={onLongPress}
               style={
-                route.name === "search" ? styles.searchItemWrapper : styles.item
+                route.name === "campaigns"
+                  ? styles.searchItemWrapper
+                  : styles.item
               }
             >
-              {route.name === "search" ? (
+              {route.name === "campaigns" ? (
                 <View style={styles.searchItemButton}>
-                  {ICONS["search"](isFocused ? colors.primary : colors.white) ||
-                    label}
+                  {ICONS["campaigns"](
+                    isFocused ? colors.primary : colors.white,
+                  ) || label}
                 </View>
               ) : (
                 ICONS[route.name](isFocused ? colors.tertiary : colors.white) ||
                 label
               )}
 
-              {isFocused && route.name !== "search" && (
+              {isFocused && route.name !== "campaigns" && (
                 <Entypo name="dot-single" color={colors.tertiary} size={16} />
               )}
             </PlatformPressable>

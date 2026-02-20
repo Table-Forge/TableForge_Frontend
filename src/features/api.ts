@@ -14,6 +14,8 @@ api.interceptors.request.use(
   async (config) => {
     const authDataSerialized = await SecureStore.getItemAsync("auth_data");
 
+    console.log(authDataSerialized);
+
     if (authDataSerialized) {
       const { token } = JSON.parse(authDataSerialized);
       if (token) {

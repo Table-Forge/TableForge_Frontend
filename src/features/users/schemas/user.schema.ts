@@ -13,6 +13,7 @@ export const UserSchema = z
     status: z.string(),
     gender: z.string(),
     birthDate: z.string().transform((val) => new Date(val)),
+    avatarUrl: z.union([z.string()]).optional(),
   })
   .superRefine((data, ctx) => {
     if (!data.password) {

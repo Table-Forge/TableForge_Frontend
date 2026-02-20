@@ -1,21 +1,28 @@
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { withLayoutContext } from "expo-router";
 import { TabBar } from "@/src/components/tab-bar/tab-bar";
-import { Tabs } from "expo-router";
+
+const MaterialTabs = withLayoutContext(
+  createMaterialTopTabNavigator().Navigator,
+);
 
 export default function TabsLayout() {
   return (
-    <Tabs
+    <MaterialTabs
+      initialRouteName="campaigns"
+      tabBarPosition="bottom"
       tabBar={(props) => <TabBar {...props} />}
       screenOptions={{
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarStyle: {},
+        swipeEnabled: true,
+        animationEnabled: true,
+        lazy: true,
       }}
     >
-      <Tabs.Screen name="index" />
-      <Tabs.Screen name="messages" />
-      <Tabs.Screen name="search" />
-      <Tabs.Screen name="notifications" />
-      <Tabs.Screen name="profile" />
-    </Tabs>
+      <MaterialTabs.Screen name="index" />
+      <MaterialTabs.Screen name="messages" />
+      <MaterialTabs.Screen name="campaigns" />
+      <MaterialTabs.Screen name="notifications" />
+      <MaterialTabs.Screen name="profile" />
+    </MaterialTabs>
   );
 }

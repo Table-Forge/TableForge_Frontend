@@ -5,7 +5,7 @@ const campaignList: ICampaign[] = [
     id: 0,
     title: "O Cerco de Valkaria",
     image:
-      "https://platform.polygon.com/wp-content/uploads/sites/2/2024/09/phb-2024-cover.jpeg?quality=90&strip=all&crop=0%2C24.5552761479%2C100%2C50.8894477042&w=2400",
+      "https://i.pinimg.com/736x/3d/18/91/3d1891fc3a2b01655f73b98df007feb8.jpg",
     level: "Veterano",
     summary:
       "As forças do Reino do Reinado estão prestes a cair diante de um inimigo desconhecido. Valkaria está sitiada, e o caos se espalha pelas ruas. Seu grupo é parte da última resistência, e cada decisão pode selar o destino da cidade e de seus habitantes.",
@@ -31,7 +31,7 @@ const campaignList: ICampaign[] = [
     id: 2,
     title: "A Maldição do Vale Escarlate",
     image:
-      "https://shortrest.files.wordpress.com/2023/10/dragonborn_bard_pg_59_326880__copy.0.jpg",
+      "https://i.pinimg.com/1200x/0a/06/a6/0a06a6aa5db0efbec13033ba05ae7729.jpg",
     level: "Intermediário",
     summary:
       "O vale está amaldiçoado há séculos, e aventureiros desaparecem misteriosamente ao atravessá-lo. Vocês são corajosos o suficiente para desvendar seus segredos?",
@@ -85,7 +85,7 @@ const carousel = [
   {
     id: 1,
     image:
-      "https://platform.polygon.com/wp-content/uploads/sites/2/2024/09/phb-2024-cover.jpeg?quality=90&strip=all&crop=0%2C24.5552761479%2C100%2C50.8894477042&w=2400",
+      "https://i.pinimg.com/736x/3d/18/91/3d1891fc3a2b01655f73b98df007feb8.jpg",
     title: "Encontre Sua Party",
   },
   {
@@ -97,7 +97,7 @@ const carousel = [
   {
     id: 3,
     image:
-      "https://shortrest.files.wordpress.com/2023/10/dragonborn_bard_pg_59_326880__copy.0.jpg",
+      "https://i.pinimg.com/1200x/0a/06/a6/0a06a6aa5db0efbec13033ba05ae7729.jpg",
     title: "Crie Sua Própria Campanha",
   },
   {

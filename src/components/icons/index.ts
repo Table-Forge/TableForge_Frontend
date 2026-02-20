@@ -1,0 +1,6 @@
+export { TavernIcon } from "./tavern";
+export { BarnIcon } from "./barn";
+export { ScrollIcon } from "./scroll";
+export { Scroll2Icon } from "./scroll2";
+export { WitchIcon } from "./witch";
+export { KnightIcon } from "./knight";

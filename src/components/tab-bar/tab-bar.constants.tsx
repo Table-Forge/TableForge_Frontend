@@ -1,26 +1,27 @@
 import { ReactElement } from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import Entypo from "react-native-vector-icons/Entypo";
+import {
+  BarnIcon,
+  KnightIcon,
+  ScrollIcon,
+  WitchIcon,
+} from "@/src/components/icons";
 
 const ICONS: { [key: string]: (color: string) => ReactElement } = {
-  index: (color: string): ReactElement => (
-    <MaterialCommunityIcons name="home-outline" size={24} color={color} />
-  ),
+  index: (color: string): ReactElement => <BarnIcon size={24} color={color} />,
   messages: (color: string): ReactElement => (
-    <MaterialCommunityIcons
-      name="message-text-outline"
-      size={20}
-      color={color}
-    />
+    <ScrollIcon size={24} color={color} />
   ),
-  search: (color: string): ReactElement => (
-    <MaterialIcons name="search" size={28} color={color} />
+  campaigns: (color: string): ReactElement => (
+    <FontAwesome5 name="dice-d20" size={28} color={color} />
   ),
   notifications: (color: string): ReactElement => (
-    <MaterialCommunityIcons name="bell-outline" size={20} color={color} />
+    <Entypo name="bell" size={24} color={color} />
   ),
   profile: (color: string): ReactElement => (
-    <MaterialIcons name="person-outline" size={20} color={color} />
+    <KnightIcon size={24} color={color} />
   ),
 };
 
