@@ -71,7 +71,8 @@ export default function RecoverPasswordScreen() {
           </Text>
 
           <Text style={styles.text}>
-            Digite seu email para que possamos enviar um email de recuperação:
+            Digite seu endereço de mensageiro (e-mail) para que possamos enviar
+            um e-mail de recuperação:
           </Text>
         </View>
 
@@ -81,9 +82,9 @@ export default function RecoverPasswordScreen() {
           render={({ field: { onChange, value } }) => {
             return (
               <View style={styles.fieldContainer}>
-                <Label text={"Email"} />
+                <Label text={"Endereço de Mansageiro"} />
                 <Input
-                  placeholder="Digite seu email"
+                  placeholder="ex.: avalon@omestre.com"
                   value={value}
                   onChangeText={onChange}
                   error={errors.email?.message?.toString()}
@@ -96,7 +97,7 @@ export default function RecoverPasswordScreen() {
         <Button
           variant="tertiary"
           onPress={handleSubmit(onSubmit)}
-          text="Enviar e-mail"
+          text="Enviar E-mail"
         />
 
         <View style={styles.footerLinks}>

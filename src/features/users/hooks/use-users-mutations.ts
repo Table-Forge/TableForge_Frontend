@@ -1,12 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import { ILoginRequest, ILoginResponse } from "../schemas/auth.schema";
 import { useAuth } from "@/src/context/auth";
-import { Alert } from "react-native";
 import { AuthService } from "@/src/features/users/services/auth.services";
 import { UserService } from "@/src/features/users/services/users.services";
 import { IUser } from "@/src/features/users/schemas/user.schema";
 import { useRouter } from "expo-router";
-import { DEFAULT_COLORS } from "@/src/theme/colors";
 import Toast from "react-native-toast-message";
 
 export const useUsersMutation = () => {

@@ -1,10 +1,8 @@
-import { LabelHTMLAttributes } from "react";
 import { ThemedText } from "../themed-text/themed-text";
 import { styles } from "./label.styles";
 import {
   Alert,
   StyleProp,
-  TextInputProps,
   TextStyle,
   TouchableOpacity,
   View,

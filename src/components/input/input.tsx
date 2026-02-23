@@ -1,17 +1,14 @@
 import React, { forwardRef, useState } from "react";
 import {
   View,
-  Text,
   TextInput,
   StyleSheet,
   TouchableOpacity,
   TextInputProps,
-  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { DEFAULT_COLORS } from "@/src/theme/colors";
 import { fonts } from "@/src/theme/fonts";
-import { Label } from "@/src/components/label/label";
 import { ErrorMessage } from "@/src/components/error-message/error-message";
 
 interface InputProps extends TextInputProps {

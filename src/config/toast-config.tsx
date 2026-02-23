@@ -1,5 +1,5 @@
 import { DEFAULT_COLORS } from "@/src/theme/colors";
-import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+import { BaseToast, ErrorToast } from "react-native-toast-message";
 
 export const toastConfig = {
   success: (props: any) => (

@@ -1,12 +1,10 @@
 import { ReactElement } from "react";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import Entypo from "react-native-vector-icons/Entypo";
 import {
   BarnIcon,
   KnightIcon,
   ScrollIcon,
-  WitchIcon,
 } from "@/src/components/icons";
 
 const ICONS: { [key: string]: (color: string) => ReactElement } = {

@@ -2,7 +2,6 @@ import { api } from "../../api";
 import {
   ILoginRequest,
   ILoginResponse,
-  LoginResponseSchema,
 } from "@/src/features/users/schemas/auth.schema";
 
 const ENDPOINT = "/users";
