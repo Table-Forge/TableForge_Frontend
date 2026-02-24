@@ -6,8 +6,9 @@ import Entypo from "react-native-vector-icons/Entypo";
 import { MaterialTopTabBarProps } from "@react-navigation/material-top-tabs";
 
 import { ICONS } from "./tab-bar.constants";
-import { styles } from "./tab-bar.styles";
 import { DEFAULT_COLORS } from "@/src/theme/colors";
+
+import { Platform, StyleSheet } from "react-native";
 
 export const TabBar = ({
   state,
@@ -102,3 +103,67 @@ export const TabBar = ({
     </View>
   );
 };
+
+export const styles = StyleSheet.create({
+  containerWrapper: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: Platform.OS === "ios" ? 85 : 70,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    overflow: "visible",
+  },
+  svgBackground: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    width: "100%",
+    height: "100%",
+    zIndex: 0,
+  },
+  container: {
+    flexDirection: "row",
+    width: "100%",
+    height: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    zIndex: 1,
+  },
+  item: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+    paddingBottom: Platform.OS === "ios" ? 15 : 0,
+  },
+  searchItemWrapper: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    backgroundColor: "transparent",
+    zIndex: 2,
+  },
+  searchItemButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: DEFAULT_COLORS.secondary,
+    width: 65,
+    height: 65,
+    borderRadius: 35,
+    position: "absolute",
+    left: "50%",
+    marginLeft: -32.5,
+    top: -55,
+
+    shadowColor: DEFAULT_COLORS.black,
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 8,
+  },
+});

@@ -1,5 +1,4 @@
-import { styles } from "@/src/components/header-actions/header-actions.styles";
-import { View, ViewStyle } from "react-native";
+import { View, ViewStyle, StyleSheet } from "react-native";
 
 interface IProps {
   children?: React.ReactNode;
@@ -35,3 +34,14 @@ export const HeaderActions = ({
     </View>
   );
 };
+
+export const styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: "transparent",
+    overflow: "visible",
+    paddingHorizontal: 20,
+  },
+});

@@ -47,8 +47,6 @@ export default function CreateAccountScreen() {
     newUserMutation.mutate(data);
   };
 
-  console.log(errors);
-
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: DEFAULT_COLORS.background }}

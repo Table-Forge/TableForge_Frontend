@@ -1,7 +1,8 @@
 import React from "react";
-import { ActivityIndicator, TouchableOpacity } from "react-native";
+import { ActivityIndicator, StyleSheet, Pressable } from "react-native";
 import { ThemedText } from "../themed-text/themed-text";
-import { styles } from "./button.styles";
+import { DEFAULT_COLORS } from "@/src/theme/colors";
+import * as Haptics from "expo-haptics";
 
 interface ButtonProps {
   text?: string;
@@ -10,6 +11,7 @@ interface ButtonProps {
   disabled?: boolean;
   isLoading?: boolean;
   variant?: "primary" | "secondary" | "tertiary";
+  size?: "sm" | "md" | "lg";
 }
 
 export const Button = ({
@@ -19,6 +21,7 @@ export const Button = ({
   disabled = false,
   isLoading = false,
   variant = "primary",
+  size = "md",
 }: ButtonProps) => {
   const variantStyles = {
     primary: styles.primary,
@@ -26,24 +29,98 @@ export const Button = ({
     tertiary: styles.tertiary,
   };
 
+  const sizeStyles = {
+    sm: styles.sm,
+    md: styles.md,
+    lg: styles.lg,
+  };
+
+  const textSizeStyles = {
+    sm: styles.textSm,
+    md: styles.textMd,
+    lg: styles.textLg,
+  };
+
+  const handlePress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    onPress?.();
+  };
+
   return (
-    <TouchableOpacity
-      style={[
+    <Pressable
+      style={({ pressed }) => [
         styles.button,
         variantStyles[variant],
+        sizeStyles[size],
         (disabled || isLoading) && styles.disabled,
+        pressed && { opacity: 0.9, transform: [{ scale: 0.97 }] },
       ]}
-      onPress={onPress}
+      onPress={handlePress}
       disabled={disabled || isLoading}
-      activeOpacity={0.7}
+      android_ripple={{ color: "rgba(251, 69, 1, 0.2)", borderless: false }}
     >
       {isLoading ? (
         <ActivityIndicator color="#f8f8f8" />
       ) : text ? (
-        <ThemedText style={styles.text}>{text}</ThemedText>
+        <ThemedText style={[styles.text, textSizeStyles[size]]}>
+          {text}
+        </ThemedText>
       ) : (
         children
       )}
-    </TouchableOpacity>
+    </Pressable>
   );
 };
+
+export const styles = StyleSheet.create({
+  button: {
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    minHeight: 48,
+    borderWidth: 1,
+  },
+  primary: {
+    backgroundColor: DEFAULT_COLORS.primary,
+    borderColor: DEFAULT_COLORS.secondary,
+  },
+  secondary: {
+    backgroundColor: DEFAULT_COLORS.secondary,
+    borderColor: DEFAULT_COLORS.primary,
+  },
+  tertiary: {
+    backgroundColor: DEFAULT_COLORS.tertiary,
+    borderColor: DEFAULT_COLORS.primary,
+  },
+  sm: {
+    minHeight: 40,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+  },
+  md: {
+    paddingHorizontal: 16,
+    minHeight: 48,
+  },
+  lg: {
+    paddingHorizontal: 16,
+    minHeight: 58,
+  },
+  disabled: {
+    backgroundColor: "#CBD5E0",
+  },
+  text: {
+    color: DEFAULT_COLORS.white,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+  },
+  textSm: {
+    fontSize: 14,
+  },
+  textMd: {
+    fontSize: 16,
+  },
+  textLg: {
+    fontSize: 20,
+  },
+});

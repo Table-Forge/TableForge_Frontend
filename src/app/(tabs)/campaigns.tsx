@@ -1,6 +1,6 @@
 import { ActionButton } from "@/src/components/action-button/action-button";
 import { CampaignItem } from "@/src/components/campaign-item/campaign-item";
-import { mainContainerStyles } from "@/src/components/main-container/main-container.styles";
+import { styles as mainContainerStyles } from "@/src/components/main-container/main-container";
 import { SearchBar } from "@/src/components/search-bar/search-bar";
 import { ThemedText } from "@/src/components/themed-text/themed-text";
 import { campaignList } from "@/src/data/mock";
@@ -24,7 +24,7 @@ export default function Search() {
   }${location?.region || ""}`;
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, paddingHorizontal: 20, paddingBottom: 10 }}>
       <View style={mainContainerStyles.container}>
         <View style={styles.topWrapper}>
           <View style={styles.locationWrapper}>
@@ -52,12 +52,6 @@ export default function Search() {
             icon={<Entypo name="bell" size={22} color={DEFAULT_COLORS.white} />}
             onPress={() => navigation.navigate("notifications")}
           />
-
-          <ActionButton
-            variant="circle"
-            icon={<Entypo name="bell" size={22} color={DEFAULT_COLORS.white} />}
-            onPress={() => navigation.navigate("notifications")}
-          />
         </View>
 
         <SearchBar />
@@ -67,6 +61,7 @@ export default function Search() {
           data={campaignList}
           ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
           renderItem={({ item }) => <CampaignItem key={item.id} data={item} />}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </SafeAreaView>

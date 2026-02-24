@@ -9,9 +9,9 @@ export const UserService = {
     return UserSchema.array().parse(data);
   },
 
-  getById: async (id: string): Promise<IUser> => {
+  getById: async (id: number): Promise<IUser> => {
     const { data } = await api.get(`${ENDPOINT}/${id}`);
-    return UserSchema.parse(data);
+    return data;
   },
 
   create: async (userData: Partial<IUser>) => {

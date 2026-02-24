@@ -1,7 +1,7 @@
 import { MainContainer } from "@/src/components/main-container/main-container";
 import { ThemedText } from "@/src/components/themed-text/themed-text";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "@/src/constants/screen-size";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, ScrollView, StyleSheet, View } from "react-native";
 
 import { Button } from "@/src/components/button/button";
 import { advantages, carousel } from "@/src/data/mock";
@@ -14,6 +14,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { HeaderActions } from "@/src/components/header-actions/header-actions";
 import { useAuth } from "@/src/context/auth";
 import { Entypo } from "@expo/vector-icons";
+import { KnightHeadIcon } from "@/src/components/icons";
 
 export default function Home() {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -21,16 +22,20 @@ export default function Home() {
 
   return (
     <MainContainer>
-      <HeaderActions hasPadding={false}>
+      <HeaderActions>
         <ActionButton
           variant="pill"
           icon={
-            <Image
-              style={styles.image}
-              source={{
-                uri: `${user?.avatarUrl ? user?.avatarUrl : "https://www.refugee-action.org.uk/wp-content/uploads/2016/10/anonymous-user.png"}`,
-              }}
-            />
+            user?.avatarUrl ? (
+              <Image
+                style={styles.image}
+                source={{
+                  uri: user?.avatarUrl,
+                }}
+              />
+            ) : (
+              <KnightHeadIcon size={22} color={DEFAULT_COLORS.secondary} />
+            )
           }
           label={`Bem vindo(a), ${user?.nickname}!`}
           onPress={() => navigation.navigate("profile")}
@@ -43,68 +48,73 @@ export default function Home() {
         />
       </HeaderActions>
 
-      <Carousel
-        width={SCREEN_WIDTH}
-        height={SCREEN_HEIGHT * 0.3}
-        data={carousel}
-        loop
-        autoPlay
-        autoPlayInterval={3000}
-        mode="parallax"
-        modeConfig={{
-          parallaxScrollingScale: 0.9,
-          parallaxAdjacentItemScale: 0.8,
-        }}
-        renderItem={({ item }) => (
-          <View style={styles.slide}>
-            <Image
-              source={{ uri: item.image }}
-              style={styles.image}
-              resizeMode="cover"
-            />
-            <ThemedText style={styles.title}>{item.title}</ThemedText>
-          </View>
-        )}
-      />
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <Carousel
+          width={SCREEN_WIDTH}
+          height={SCREEN_HEIGHT * 0.3}
+          data={carousel}
+          loop
+          autoPlay
+          autoPlayInterval={3000}
+          mode="parallax"
+          modeConfig={{
+            parallaxScrollingScale: 0.9,
+            parallaxAdjacentItemScale: 0.8,
+          }}
+          renderItem={({ item }) => (
+            <View style={styles.slide}>
+              <Image
+                source={{ uri: item.image }}
+                style={styles.image}
+                resizeMode="cover"
+              />
+              <ThemedText style={styles.title}>{item.title}</ThemedText>
+            </View>
+          )}
+        />
 
-      <View>
-        <ThemedText weight="bold" style={{ fontSize: 20, marginBottom: 16 }}>
-          Seja um Nobre!
-        </ThemedText>
-
-        <View style={styles.advantagesWrapper}>
-          <ThemedText weight="bold" style={{ fontSize: 16 }}>
-            Vantagens da Nobreza
+        <View style={styles.callWrapper}>
+          <ThemedText weight="bold" style={{ fontSize: 20, marginBottom: 16 }}>
+            Seja um Nobre!
           </ThemedText>
 
-          <View style={styles.advantagesList}>
-            {advantages.map((item, index) => (
-              <ThemedText key={index} style={{ fontSize: 16 }}>
-                <FeatherIcons
-                  name="check-circle"
-                  size={16}
-                  color={DEFAULT_COLORS.white}
-                />{" "}
-                {item.text}
-              </ThemedText>
-            ))}
-
-            <ThemedText style={{ textAlign: "center" }}>
-              Apenas{" "}
-              <ThemedText weight="bold" style={{ fontSize: 20 }}>
-                R$ 9,99
-              </ThemedText>
-              /mês
+          <View style={styles.advantagesWrapper}>
+            <ThemedText weight="bold" style={{ fontSize: 16 }}>
+              Vantagens da Nobreza
             </ThemedText>
 
-            <Button
-              onPress={() => console.log("apertei")}
-              variant="tertiary"
-              text="Quero Assinar!"
-            />
+            <View style={styles.advantagesList}>
+              {advantages.map((item, index) => (
+                <ThemedText key={index} style={{ fontSize: 16 }}>
+                  <FeatherIcons
+                    name="check-circle"
+                    size={16}
+                    color={DEFAULT_COLORS.white}
+                  />{" "}
+                  {item.text}
+                </ThemedText>
+              ))}
+
+              <ThemedText style={{ textAlign: "center" }}>
+                Apenas{" "}
+                <ThemedText weight="bold" style={{ fontSize: 20 }}>
+                  R$ 9,99
+                </ThemedText>
+                /mês
+              </ThemedText>
+
+              <Button
+                onPress={() => console.log("apertei")}
+                variant="tertiary"
+                text="Quero Assinar!"
+              />
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </MainContainer>
   );
 }
@@ -143,5 +153,8 @@ export const styles = StyleSheet.create({
   advantagesList: {
     display: "flex",
     gap: 10,
+  },
+  callWrapper: {
+    paddingHorizontal: 20,
   },
 });

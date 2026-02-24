@@ -4,3 +4,5 @@ export { ScrollIcon } from "./scroll";
 export { Scroll2Icon } from "./scroll2";
 export { WitchIcon } from "./witch";
 export { KnightIcon } from "./knight";
+export { LogoutIcon } from "./logout";
+export { KnightHeadIcon } from "./knight-head";

@@ -1,1 +1,1 @@
-export const QUERY_KEY = "users";
+export const USER = "user";
