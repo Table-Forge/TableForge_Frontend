@@ -15,7 +15,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "expo-router";
 import { ParamListBase } from "@react-navigation/native";
 
-export default function Settings() {
+export default function SettingsScreen() {
   const { signOut } = useAuth();
 
   const { handleBack } = useBackRouter();
@@ -95,7 +95,11 @@ export default function Settings() {
                 onPress={() => navigation.navigate("password-security")}
               />
               <View style={styles.separator} />
-              <SettingItem icon="notifications-none" label="Notificações" />
+              <SettingItem
+                icon="notifications-none"
+                label="Notificações"
+                onPress={() => navigation.navigate("notifications-settings")}
+              />
             </InfoCard>
 
             <View style={styles.sectionHeader}>

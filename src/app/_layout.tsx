@@ -51,6 +51,13 @@ export default function RootLayout() {
             />
 
             <Stack.Screen
+              name="notifications-settings"
+              options={{
+                presentation: "card",
+              }}
+            />
+
+            <Stack.Screen
               name="password-security"
               options={{
                 presentation: "card",
