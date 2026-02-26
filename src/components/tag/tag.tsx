@@ -1,8 +1,9 @@
 import { View, StyleSheet } from "react-native";
 import { ThemedText } from "../themed-text/themed-text";
 import React from "react";
+import { DEFAULT_COLORS } from "@/src/theme/colors";
 
-const BORDER_COLOR = "rgba(251, 69, 1, 0.4)";
+const BORDER_COLOR = DEFAULT_COLORS.tertiary_30;
 
 export const Tag = ({
   icon,
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 11,
     fontWeight: "600",
-    color: "#EEE",
+    color: DEFAULT_COLORS.grays._50,
     letterSpacing: 0.3,
   },
 });

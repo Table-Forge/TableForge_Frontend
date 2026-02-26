@@ -18,7 +18,7 @@ interface IProps {
 export const CampaignItem = ({
   data,
   cardColor = DEFAULT_COLORS.primary,
-  tagColor = "rgba(251, 69, 1, 0.4)",
+  tagColor = DEFAULT_COLORS.tertiary_30,
 }: IProps) => {
   const router = useRouter();
 
@@ -157,7 +157,7 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     overflow: "hidden",
     borderWidth: 1.5,
-    borderColor: "rgba(251, 69, 1, 0.4)",
+    borderColor: DEFAULT_COLORS.tertiary_30,
   },
   image: {
     width: "100%",

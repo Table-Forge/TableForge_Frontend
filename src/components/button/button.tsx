@@ -57,7 +57,7 @@ export const Button = ({
       ]}
       onPress={handlePress}
       disabled={disabled || isLoading}
-      android_ripple={{ color: "rgba(251, 69, 1, 0.2)", borderless: false }}
+      android_ripple={{ color: DEFAULT_COLORS.tertiary_20, borderless: false }}
     >
       {isLoading ? (
         <ActivityIndicator color="#f8f8f8" />
@@ -107,7 +107,7 @@ export const styles = StyleSheet.create({
     minHeight: 58,
   },
   disabled: {
-    backgroundColor: "#CBD5E0",
+    backgroundColor: DEFAULT_COLORS.grays._100,
   },
   text: {
     color: DEFAULT_COLORS.white,

@@ -30,7 +30,6 @@ export const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 16,
     padding: 16,
-    // borderRadius: 8,
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     width: "100%",

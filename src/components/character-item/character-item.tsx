@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: DEFAULT_COLORS.background,
     borderWidth: 1,
-    borderColor: "rgba(251, 69, 1, 0.3)",
+    borderColor: DEFAULT_COLORS.tertiary_30,
 
     elevation: 5,
     shadowColor: DEFAULT_COLORS.tertiary,

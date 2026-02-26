@@ -251,7 +251,7 @@ export const styles = StyleSheet.create({
     borderRadius: 15,
 
     borderWidth: 2,
-    borderColor: "rgba(251, 69, 1, 0.3)",
+    borderColor: DEFAULT_COLORS.tertiary_30,
 
     position: "relative",
   },

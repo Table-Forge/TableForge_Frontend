@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
 
     borderWidth: 2,
-    borderColor: "rgba(251, 69, 1, 0.3)",
+    borderColor: DEFAULT_COLORS.tertiary_30,
 
     paddingHorizontal: 10,
     paddingTop: 68,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     borderWidth: 3,
     borderColor: DEFAULT_COLORS.tertiary,
-    backgroundColor: "#777",
+    backgroundColor: DEFAULT_COLORS.grays._300,
 
     shadowColor: DEFAULT_COLORS.tertiary,
     shadowOffset: { width: 0, height: 0 },
