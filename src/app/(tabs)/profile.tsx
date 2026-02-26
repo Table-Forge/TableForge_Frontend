@@ -1,7 +1,7 @@
 import { ActionButton } from "@/src/components/action-button/action-button";
 import { HeaderActions } from "@/src/components/header-actions/header-actions";
 import { KnightHeadIcon } from "@/src/components/icons";
-import { InfoCard } from "@/src/components/info-card/info-card";
+
 import { MainContainer } from "@/src/components/main-container/main-container";
 import { ThemedText } from "@/src/components/themed-text/themed-text";
 import { useAuth } from "@/src/context/auth";
@@ -18,14 +18,17 @@ import {
   Image,
 } from "react-native";
 
-import { styles as infoCardStyles } from "@/src/components/info-card/info-card";
 import { useUser } from "@/src/features/users/hooks/use-user";
 import { LoadingOverlay } from "@/src/components/loading-overlay/loading-overlay";
-import { formatDate } from "@/src/utils/format";
-import { Tag } from "@/src/components/tag/tag";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "expo-router";
 import { ParamListBase } from "@react-navigation/native";
+import { ProfileTab } from "@/src/pages-components/profile/profile-tab";
+import { CharactersTab } from "@/src/pages-components/profile/characters-tab";
+import { CampaignsTab } from "@/src/pages-components/profile/campaigns-tab";
+
+const TABS = ["Perfil", "Personagens", "Campanhas"] as const;
+type ITabs = (typeof TABS)[number];
 
 export default function Profile() {
   const { user } = useAuth();
@@ -36,7 +39,7 @@ export default function Profile() {
   const userId = user?.id ? Number(user.id) : undefined;
   const { data, isPending, refetch } = useUser(userId);
 
-  const [activeTab, setActiveTab] = useState("Perfil");
+  const [activeTab, setActiveTab] = useState<ITabs>("Perfil");
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
@@ -109,7 +112,7 @@ export default function Profile() {
             </View>
 
             <View style={styles.tabBar}>
-              {["Perfil", "Personagens", "Campanhas"].map((tab) => (
+              {TABS.map((tab) => (
                 <TouchableOpacity
                   key={tab}
                   style={[
@@ -129,66 +132,11 @@ export default function Profile() {
               ))}
             </View>
 
-            <InfoCard title="Ficha Técnica" onEdit={() => {}}>
-              <View style={infoCardStyles.cardContent}>
-                <View style={infoCardStyles.cardContentItem}>
-                  <ThemedText style={infoCardStyles.cardContentLabel}>
-                    Data de Nascimento
-                  </ThemedText>
-                  <ThemedText style={infoCardStyles.cardContentValue}>
-                    {data?.birthDate ? formatDate(data?.birthDate) : "-"}
-                  </ThemedText>
-                </View>
-                <View style={infoCardStyles.cardContentItem}>
-                  <ThemedText style={infoCardStyles.cardContentLabel}>
-                    Gênero
-                  </ThemedText>
-                  <ThemedText style={infoCardStyles.cardContentValue}>
-                    {data?.gender || "-"}
-                  </ThemedText>
-                </View>
-              </View>
-              <View style={infoCardStyles.cardContentItem}>
-                <ThemedText style={infoCardStyles.cardContentLabel}>
-                  E-mail
-                </ThemedText>
-                <ThemedText style={infoCardStyles.cardContentValue}>
-                  {data?.email || "-"}
-                </ThemedText>
-              </View>
-            </InfoCard>
+            {activeTab === "Perfil" && <ProfileTab data={data} />}
 
-            <InfoCard title="Preferências de Jogo" onEdit={() => {}}>
-              <View style={infoCardStyles.cardContentItem}>
-                <ThemedText style={infoCardStyles.cardContentLabel}>
-                  Sistema
-                </ThemedText>
-                <View style={infoCardStyles.cardContent}>
-                  <Tag text="Tormenta" />
-                  <Tag text="D&D" />
-                </View>
-              </View>
-              <View style={infoCardStyles.cardContentItem}>
-                <ThemedText style={infoCardStyles.cardContentLabel}>
-                  Classe
-                </ThemedText>
-                <View style={infoCardStyles.cardContent}>
-                  <Tag text="Clérigo" />
-                  <Tag text="Artífice" />
-                  <Tag text="Samurai" />
-                </View>
-              </View>
-            </InfoCard>
+            {activeTab === "Personagens" && <CharactersTab />}
 
-            <InfoCard title="Meu Plano">
-              <View style={infoCardStyles.cardContent}>
-                <View style={infoCardStyles.cardContentItem}>
-                  <ThemedText style={infoCardStyles.cardContentLabel}>
-                    Básico
-                  </ThemedText>
-                </View>
-              </View>
-            </InfoCard>
+            {activeTab === "Campanhas" && <CampaignsTab />}
           </View>
         </ScrollView>
       </MainContainer>
@@ -201,16 +149,15 @@ export default function Profile() {
 const styles = StyleSheet.create({
   contentBody: {
     marginTop: 50,
-    flex: 1,
     backgroundColor: DEFAULT_COLORS.primary,
     borderRadius: 30,
 
     borderWidth: 2,
     borderColor: "rgba(251, 69, 1, 0.3)",
 
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingTop: 68,
-    minHeight: 600,
+    paddingBottom: 20,
     position: "relative",
   },
   avatarContainer: {

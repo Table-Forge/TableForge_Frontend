@@ -1,10 +1,14 @@
 import { PropsWithChildren } from "react";
-import { Platform, View, StyleSheet } from "react-native";
+import { Platform, View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export const MainContainer = ({ children }: PropsWithChildren) => {
+interface IProps extends PropsWithChildren {
+  style?: StyleProp<ViewStyle>;
+}
+
+export const MainContainer = ({ children, style }: IProps) => {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={[{ flex: 1 }, style]}>
       <View style={[styles.container, { flex: 1 }]}>{children}</View>
     </SafeAreaView>
   );

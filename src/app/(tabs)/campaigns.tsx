@@ -1,17 +1,16 @@
 import { ActionButton } from "@/src/components/action-button/action-button";
 import { CampaignItem } from "@/src/components/campaign-item/campaign-item";
-import { styles as mainContainerStyles } from "@/src/components/main-container/main-container";
+import { MainContainer } from "@/src/components/main-container/main-container";
 import { SearchBar } from "@/src/components/search-bar/search-bar";
 import { ThemedText } from "@/src/components/themed-text/themed-text";
 import { campaignList } from "@/src/data/mock";
 import { useLocation } from "@/src/hooks/use-location";
-import { DEFAULT_COLORS } from "@/src/theme/colors";
 import { Entypo } from "@expo/vector-icons";
 import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
+import { DEFAULT_COLORS } from "@/src/theme/colors";
 
 export default function Search() {
   //adicionar update ao puxar pra baixo pra baixo, com loading
@@ -24,47 +23,47 @@ export default function Search() {
   }${location?.region || ""}`;
 
   return (
-    <SafeAreaView style={{ flex: 1, paddingHorizontal: 20, paddingBottom: 10 }}>
-      <View style={mainContainerStyles.container}>
-        <View style={styles.topWrapper}>
-          <View style={styles.locationWrapper}>
-            <ThemedText style={{ fontSize: 14 }}>Localização</ThemedText>
-            <View style={styles.locationText}>
-              {loading ? (
-                <ActivityIndicator color={DEFAULT_COLORS.white} />
-              ) : (
-                <>
-                  <FontAwesome6
-                    name="location-dot"
-                    color={DEFAULT_COLORS.secondary}
-                    size={16}
-                  />
-                  <ThemedText style={{ fontSize: 16 }} weight="bold">
-                    {locationString}
-                  </ThemedText>
-                </>
-              )}
-            </View>
+    <MainContainer
+      style={{ flex: 1, paddingHorizontal: 10, paddingBottom: 10 }}
+    >
+      <View style={styles.topWrapper}>
+        <View style={styles.locationWrapper}>
+          <ThemedText style={{ fontSize: 14 }}>Localização</ThemedText>
+          <View style={styles.locationText}>
+            {loading ? (
+              <ActivityIndicator color={DEFAULT_COLORS.white} />
+            ) : (
+              <>
+                <FontAwesome6
+                  name="location-dot"
+                  color={DEFAULT_COLORS.secondary}
+                  size={16}
+                />
+                <ThemedText style={{ fontSize: 16 }} weight="bold">
+                  {locationString}
+                </ThemedText>
+              </>
+            )}
           </View>
-
-          <ActionButton
-            variant="circle"
-            icon={<Entypo name="bell" size={22} color={DEFAULT_COLORS.white} />}
-            onPress={() => navigation.navigate("notifications")}
-          />
         </View>
 
-        <SearchBar />
-
-        <FlatList
-          style={styles.campaignList}
-          data={campaignList}
-          ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          renderItem={({ item }) => <CampaignItem key={item.id} data={item} />}
-          showsVerticalScrollIndicator={false}
+        <ActionButton
+          variant="circle"
+          icon={<Entypo name="bell" size={22} color={DEFAULT_COLORS.white} />}
+          onPress={() => navigation.navigate("notifications")}
         />
       </View>
-    </SafeAreaView>
+
+      <SearchBar />
+
+      <FlatList
+        style={styles.campaignList}
+        data={campaignList}
+        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+        renderItem={({ item }) => <CampaignItem key={item.id} data={item} />}
+        showsVerticalScrollIndicator={false}
+      />
+    </MainContainer>
   );
 }
 

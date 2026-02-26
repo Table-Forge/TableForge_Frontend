@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
     color: DEFAULT_COLORS.white,
   },
   contentBody: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     paddingBottom: 40,
   },
   sectionHeader: {

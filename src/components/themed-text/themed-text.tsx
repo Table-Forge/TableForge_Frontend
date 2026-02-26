@@ -1,6 +1,12 @@
 import { fonts } from "@/src/theme/fonts";
-import { StyleProp, Text, TextProps, TextStyle } from "react-native";
-import { styles } from "./themed-text.styles";
+import {
+  StyleProp,
+  Text,
+  TextProps,
+  TextStyle,
+  StyleSheet,
+} from "react-native";
+import { DefaultTheme } from "@/src/theme/theme";
 
 type FontWeight = keyof typeof fonts;
 
@@ -26,9 +32,9 @@ export const ThemedText = ({
       style={[
         styles.text,
         fontWeightStyle,
-        style,
         fontSize ? { fontSize } : null,
         color ? { color } : null,
+        style,
       ]}
       {...props}
     >
@@ -36,3 +42,10 @@ export const ThemedText = ({
     </Text>
   );
 };
+
+export const styles = StyleSheet.create({
+  text: {
+    color: DefaultTheme.colors.text,
+    flexWrap: "wrap",
+  },
+});

@@ -42,6 +42,6 @@ export const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "transparent",
     overflow: "visible",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
 });

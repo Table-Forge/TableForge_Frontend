@@ -1,3 +1,4 @@
+import { ICharacter } from "@/src/interfaces/character.interfaces";
 import { ICampaign } from "../interfaces";
 
 const campaignList: ICampaign[] = [
@@ -127,4 +128,40 @@ const advantages = [
   { text: "Todas as funcionalidades do Plano Plebeu" },
 ];
 
-export { advantages, campaignList, carousel };
+const charactersList: ICharacter[] = [
+  {
+    id: 1,
+    name: "Sauriel",
+    image:
+      "https://i.pinimg.com/736x/b1/51/2b/b1512b3d4aca8b407421300d1e23d436.jpg",
+    class: "Guerreiro",
+    race: "Draconato",
+    alignment: "Leal e Bom",
+    history:
+      "Um nobre guerreiro que busca restaurar a honra de sua linhagem após seu clã ser traído.",
+  },
+  {
+    id: 2,
+    name: "Valerius",
+    image:
+      "https://i.pinimg.com/736x/b0/20/86/b02086b903eab208886aff98e746fc10.jpg",
+    class: "Paladino",
+    race: "Humano",
+    alignment: "Leal e Neutro",
+    history:
+      "Um cavaleiro errante que jurou proteger os fracos, custe o que custar.",
+  },
+  {
+    id: 3,
+    name: "Xyla",
+    image:
+      "https://i.pinimg.com/736x/76/26/87/762687ed380be55e50d24aa41aed91fb.jpg",
+    class: "Maga",
+    race: "Tiefling",
+    alignment: "Caótico e Neutro",
+    history:
+      "Expulsa de sua academia por estudar magias proibidas, ela busca conhecimento oculto no mundo.",
+  },
+];
+
+export { advantages, campaignList, carousel, charactersList };

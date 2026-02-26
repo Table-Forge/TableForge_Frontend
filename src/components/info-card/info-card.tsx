@@ -59,6 +59,8 @@ export const styles = StyleSheet.create({
     ...fonts.bold,
     color: DEFAULT_COLORS.tertiary,
     fontSize: 16,
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
   cardContent: {
     flexDirection: "row",

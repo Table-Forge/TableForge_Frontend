@@ -94,14 +94,16 @@ export default function Home() {
 
             <View style={styles.advantagesList}>
               {advantages.map((item, index) => (
-                <ThemedText key={index} style={{ fontSize: 16 }}>
+                <View key={index} style={styles.advantageItem}>
                   <FeatherIcons
                     name="check-circle"
                     size={16}
                     color={DEFAULT_COLORS.white}
-                  />{" "}
-                  {item.text}
-                </ThemedText>
+                  />
+                  <ThemedText fontSize={16} style={{ flex: 1 }}>
+                    {item.text}
+                  </ThemedText>
+                </View>
               ))}
 
               <ThemedText style={{ textAlign: "center" }}>
@@ -166,7 +168,13 @@ export const styles = StyleSheet.create({
     display: "flex",
     gap: 10,
   },
+  advantageItem: {
+    flexDirection: "row",
+    gap: 8,
+    alignItems: "flex-start",
+    width: "100%",
+  },
   callWrapper: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
   },
 });
