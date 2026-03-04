@@ -30,7 +30,7 @@ export default function CharacterScreen() {
     <MainContainer style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
         <ImageBackground source={{ uri: data.image }} style={styles.banner}>
-          <HeaderActions position="left">
+          <HeaderActions padding={10}>
             <ActionButton
               variant="circle"
               style={styles.backButton}
