@@ -1,21 +1,22 @@
 import { useController } from "react-hook-form";
-import { Text, TouchableOpacity, View } from "react-native";
-import { styles } from "./multiple-options.styles";
+import { Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { TOptions, TPrimitives } from "@/src/interfaces";
+import { DEFAULT_COLORS } from "@/src/theme/colors";
+import { fonts } from "@/src/theme/fonts";
 
-interface RadioOptionsProps {
+interface MultipleOptionsProps {
   hookform: any;
   name: string;
   options: TOptions[];
   hasError?: boolean;
 }
 
-export const RadioOptions = ({
+export const MultipleOptions = ({
   hookform,
   name,
   options,
   hasError,
-}: RadioOptionsProps) => {
+}: MultipleOptionsProps) => {
   const {
     field: { onChange, value },
   } = useController({
@@ -40,6 +41,7 @@ export const RadioOptions = ({
         return (
           <TouchableOpacity
             key={option.value?.toString()}
+            activeOpacity={0.7}
             onPress={() => handlePress(option.value)}
             style={[
               styles.option,
@@ -52,6 +54,8 @@ export const RadioOptions = ({
                 styles.optionText,
                 isSelected && styles.optionTextSelected,
               ]}
+              numberOfLines={1}
+              adjustsFontSizeToFit
             >
               {option.name}
             </Text>
@@ -61,3 +65,45 @@ export const RadioOptions = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 4,
+    width: "100%",
+  },
+  option: {
+    height: 48,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "rgba(126, 135, 226, 0.2)",
+    backgroundColor: "rgba(255, 255, 255, 0.03)",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 8,
+  },
+  optionSelected: {
+    borderColor: DEFAULT_COLORS.tertiary,
+    backgroundColor: "rgba(251, 69, 1, 0.1)",
+    shadowColor: DEFAULT_COLORS.tertiary,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 2,
+  },
+  optionError: {
+    borderColor: "#FF4D4D",
+  },
+  optionText: {
+    ...fonts.regular,
+    fontSize: 14,
+    color: "rgba(255, 255, 255, 0.6)",
+    textAlign: "center",
+  },
+  optionTextSelected: {
+    color: DEFAULT_COLORS.white,
+    ...fonts.heavy,
+  },
+});

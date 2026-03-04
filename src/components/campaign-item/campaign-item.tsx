@@ -9,6 +9,7 @@ import Fontisto from "react-native-vector-icons/Fontisto";
 import { useRouter } from "expo-router";
 import { Tag } from "../tag/tag";
 import { ThemedText } from "../themed-text/themed-text";
+import { SwordDiceIcon } from "@/src/components/icons";
 
 interface IProps {
   data: ICampaign;
@@ -59,11 +60,7 @@ export const CampaignItem = ({
               marginTop: 2,
             }}
           >
-            <FontAwesome6
-              name="crown"
-              size={10}
-              color={DEFAULT_COLORS.tertiary}
-            />
+            <SwordDiceIcon size={24} color={DEFAULT_COLORS.tertiary} />
             <ThemedText
               style={{
                 fontSize: 12,
@@ -75,16 +72,6 @@ export const CampaignItem = ({
             </ThemedText>
           </View>
         </View>
-
-        {/* status */}
-        {/* <View
-          style={{
-            width: 8,
-            height: 8,
-            borderRadius: 4,
-            backgroundColor: DEFAULT_COLORS.tertiary,
-          }}
-        /> */}
       </View>
 
       <View style={styles.bottomWrapper}>

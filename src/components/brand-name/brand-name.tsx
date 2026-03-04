@@ -1,26 +1,19 @@
 import React from "react";
 import { Text, StyleSheet, TextStyle } from "react-native";
-import { DEFAULT_COLORS } from "@/src/theme/colors"; //
-import { fonts } from "@/src/theme/fonts"; //
+import { DEFAULT_COLORS } from "@/src/theme/colors";
+import { fonts } from "@/src/theme/fonts";
 
 interface BrandNameProps {
   style?: TextStyle;
+  size?: number;
 }
 
-export const BrandName = ({ style }: BrandNameProps) => {
+export const BrandName = ({ style, size = 32 }: BrandNameProps) => {
   return (
-    <Text style={[styles.baseText, style]}>
-      <Text style={{ color: DEFAULT_COLORS.primary }}>Game</Text>
-      <Text style={{ color: DEFAULT_COLORS.tertiary }}>Party</Text>
-      <Text
-        style={{
-          color: DEFAULT_COLORS.primary,
+    <Text style={[styles.baseText, { fontSize: size }, style]}>
+      <Text style={styles.tablePart}>Table</Text>
 
-          ...fonts.heavy,
-        }}
-      >
-        Finder
-      </Text>
+      <Text style={styles.forgePart}>Forge</Text>
     </Text>
   );
 };
@@ -28,10 +21,20 @@ export const BrandName = ({ style }: BrandNameProps) => {
 const styles = StyleSheet.create({
   baseText: {
     ...fonts.heavy,
-    fontSize: 36,
-    textShadowColor: DEFAULT_COLORS.secondary,
+    textAlign: "center",
+    letterSpacing: -0.5,
+    textTransform: "uppercase",
+  },
+  tablePart: {
+    color: DEFAULT_COLORS.white,
+    textShadowColor: "rgba(255, 255, 255, 0.3)",
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 15,
-    padding: 10,
+    textShadowRadius: 5,
+  },
+  forgePart: {
+    color: DEFAULT_COLORS.tertiary,
+    textShadowColor: DEFAULT_COLORS.tertiary,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 25,
   },
 });

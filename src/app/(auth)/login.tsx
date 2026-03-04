@@ -1,6 +1,5 @@
 import {
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
   Image,
@@ -11,7 +10,6 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DEFAULT_COLORS } from "@/src/theme/colors";
-import { fonts } from "@/src/theme/fonts";
 
 import {
   ILoginRequest,
@@ -24,6 +22,8 @@ import LogoIcon from "@/src/assets/images/logo2.png";
 import { BrandName } from "@/src/components/brand-name/brand-name";
 import { useRouter } from "expo-router";
 import { Label } from "@/src/components/label/label";
+import { ThemedText } from "@/src/components/themed-text/themed-text";
+import { MainContainer } from "@/src/components/main-container/main-container";
 
 export default function LoginScreen() {
   const { loginMutation, isLoadingLoginMutation } = useUsersMutation();
@@ -35,10 +35,7 @@ export default function LoginScreen() {
     formState: { errors },
   } = useForm<ILoginRequest>({
     resolver: zodResolver(LoginRequestSchema),
-    defaultValues: {
-      login: "",
-      password: "",
-    },
+    defaultValues: { login: "", password: "" },
   });
 
   const onSubmit = async (data: ILoginRequest) => {
@@ -46,116 +43,179 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <ScrollView
-        contentContainerStyle={styles.container}
-        bounces={false}
-        keyboardShouldPersistTaps="handled"
+    <MainContainer>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
       >
-        <View style={styles.header}>
-          <Image
-            source={LogoIcon}
-            style={styles.logoImage}
-            resizeMode="contain"
-          />
-          <BrandName style={styles.title} />
-          <Text style={styles.subtitle}>
-            Encontre sua party ideal, próxima à você!
-          </Text>
-        </View>
-
-        <Controller
-          control={control}
-          name="login"
-          render={({ field: { onChange, value } }) => {
-            return (
-              <View style={styles.fieldContainer}>
-                <Label text={"Login"} />
-                <Input
-                  placeholder="Digite seu login"
-                  value={value}
-                  onChangeText={onChange}
-                  error={errors.login?.message?.toString()}
-                />
-              </View>
-            );
-          }}
-        />
-
-        <Controller
-          control={control}
-          name="password"
-          render={({ field: { onChange, value } }) => (
-            <View style={styles.fieldContainer}>
-              <Label text={"Senha"} />
-              <Input
-                placeholder="Digite sua senha"
-                isPassword
-                value={value}
-                onChangeText={onChange}
-                error={errors.password?.message?.toString()}
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          bounces={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.header}>
+            <View style={styles.logoWrapper}>
+              <Image
+                source={LogoIcon}
+                style={styles.logoImage}
+                resizeMode="contain"
               />
             </View>
-          )}
-        />
+            <BrandName style={styles.title} />
+            <ThemedText style={styles.subtitle}>
+              Identifique-se, aventureiro. Sua party te espera.
+            </ThemedText>
+          </View>
 
-        <Button
-          variant="tertiary"
-          onPress={handleSubmit(onSubmit)}
-          isLoading={isLoadingLoginMutation}
-          text="Entrar"
-        />
+          <View style={styles.formCard}>
+            <Controller
+              control={control}
+              name="login"
+              render={({ field: { onChange, value } }) => (
+                <View style={styles.fieldContainer}>
+                  <Label text="Usuário ou E-mail" />
+                  <Input
+                    placeholder="Seu nome de herói"
+                    value={value}
+                    onChangeText={onChange}
+                    error={errors.login?.message?.toString()}
+                  />
+                </View>
+              )}
+            />
 
-        <View style={styles.footerLinks}>
-          <TouchableOpacity onPress={() => router.navigate("/create-account")}>
-            <Text style={styles.linkText}>Criar conta</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => router.navigate("/recover-password")}
-          >
-            <Text style={styles.linkText}>Recuperar senha</Text>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, value } }) => (
+                <View style={styles.fieldContainer}>
+                  <Label text="Segredo (Senha)" />
+                  <Input
+                    placeholder="Sua palavra-passe"
+                    isPassword
+                    value={value}
+                    onChangeText={onChange}
+                    error={errors.password?.message?.toString()}
+                  />
+                </View>
+              )}
+            />
+
+            <Button
+              variant="tertiary"
+              onPress={handleSubmit(onSubmit)}
+              isLoading={isLoadingLoginMutation}
+              text="INICIAR JORNADA"
+            />
+          </View>
+
+          <View style={styles.footerLinks}>
+            <TouchableOpacity
+              onPress={() => router.navigate("/create-account")}
+              style={styles.linkButton}
+            >
+              <ThemedText style={styles.linkTextPrefix}>
+                Novo por aqui?
+              </ThemedText>
+              <ThemedText style={styles.linkText}>Crie sua conta</ThemedText>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => router.navigate("/recover-password")}
+            >
+              <ThemedText style={styles.forgotText}>
+                Perdeu seu segredo?
+              </ThemedText>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </MainContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  logoImage: {
-    width: 100,
-    height: 100,
-  },
-  container: {
+  scrollContainer: {
     flexGrow: 1,
-    backgroundColor: DEFAULT_COLORS.background,
-    padding: 30,
+    padding: 24,
     justifyContent: "center",
-    gap: 16,
+  },
+  header: {
+    alignItems: "center",
+    marginBottom: 40,
+  },
+  logoWrapper: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: DEFAULT_COLORS.primary,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: DEFAULT_COLORS.tertiary,
+    shadowColor: DEFAULT_COLORS.tertiary,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 8,
+  },
+  logoImage: {
+    width: 80,
+    height: 80,
+  },
+  title: {
+    fontSize: 32,
+    marginTop: 20,
+    color: DEFAULT_COLORS.white,
+  },
+  subtitle: {
+    textAlign: "center",
+    marginTop: 8,
+    opacity: 0.7,
+    fontSize: 14,
+    paddingHorizontal: 20,
+  },
+  formCard: {
+    backgroundColor: "rgba(26, 26, 46, 0.8)",
+    padding: 24,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(126, 135, 226, 0.2)",
+    gap: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 5,
   },
   fieldContainer: {
     width: "100%",
   },
-  header: { alignItems: "center", marginBottom: 30 },
-  title: {
-    fontSize: 36,
-    marginTop: 16,
-  },
-  subtitle: {
-    ...fonts.medium,
-    color: DEFAULT_COLORS.white,
-    textAlign: "center",
-    marginTop: 5,
-    opacity: 0.8,
-    fontSize: 20,
+  loginButton: {
+    marginTop: 10,
+    height: 56,
   },
   footerLinks: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
+    marginTop: 30,
+    alignItems: "center",
+    gap: 15,
   },
-  linkText: { ...fonts.bold, color: DEFAULT_COLORS.white, fontSize: 14 },
+  linkButton: {
+    flexDirection: "row",
+    gap: 5,
+  },
+  linkTextPrefix: {
+    color: DEFAULT_COLORS.grays._100,
+    fontSize: 14,
+  },
+  linkText: {
+    color: DEFAULT_COLORS.tertiary,
+    fontWeight: "bold",
+    fontSize: 14,
+    textDecorationLine: "underline",
+  },
+  forgotText: {
+    color: DEFAULT_COLORS.grays._300,
+    fontSize: 13,
+  },
 });

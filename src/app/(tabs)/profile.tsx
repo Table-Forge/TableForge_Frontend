@@ -7,7 +7,7 @@ import { ThemedText } from "@/src/components/themed-text/themed-text";
 import { useAuth } from "@/src/context/auth";
 import { useBackRouter } from "@/src/hooks/use-back-route";
 import { DEFAULT_COLORS } from "@/src/theme/colors";
-import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import {
   ScrollView,
@@ -84,8 +84,8 @@ export default function Profile() {
               <ActionButton
                 variant="circle"
                 icon={
-                  <MaterialIcons
-                    name="diamond"
+                  <MaterialDesignIcons
+                    name="crown"
                     size={28}
                     color={DEFAULT_COLORS.white}
                   />

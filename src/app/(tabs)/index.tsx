@@ -20,6 +20,7 @@ import {
   InfoCard,
   styles as infoCardStyles,
 } from "@/src/components/info-card/info-card";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 export default function Home() {
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
@@ -82,15 +83,16 @@ export default function Home() {
         />
 
         <View style={styles.callWrapper}>
-          <ThemedText
-            weight="bold"
-            style={{
-              fontSize: 20,
-              marginBottom: 16,
-            }}
-          >
-            Seja um Nobre!
-          </ThemedText>
+          <View style={styles.advantagesTitle}>
+            <MaterialDesignIcons
+              name="crown-circle-outline"
+              size={28}
+              color={DEFAULT_COLORS.white}
+            />
+            <ThemedText weight="bold" fontSize={20}>
+              Seja um Nobre!
+            </ThemedText>
+          </View>
 
           <InfoCard
             title="Vantagens da Nobreza"
@@ -154,31 +156,13 @@ export const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 8,
   },
-  advantagesWrapper: {
-    display: "flex",
-    gap: 10,
-    padding: 16,
-
-    flex: 1,
-    backgroundColor: DEFAULT_COLORS.primary,
-    borderRadius: 30,
-
-    borderWidth: 2,
-    borderColor: DEFAULT_COLORS.tertiary_30,
-
-    position: "relative",
-  },
-  advantagesList: {
-    display: "flex",
-    gap: 10,
-  },
-  advantageItem: {
-    flexDirection: "row",
-    gap: 8,
-    alignItems: "flex-start",
-    width: "100%",
+  advantagesTitle: {
+    gap: 4,
+    alignItems: "center",
+    marginBottom: 20,
   },
   callWrapper: {
+    paddingTop: 16,
     paddingHorizontal: 10,
   },
 });

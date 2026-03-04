@@ -272,7 +272,7 @@ export default function Messages() {
             <MaterialDesignIcons
               name="dots-vertical-circle-outline"
               size={32}
-              color={DEFAULT_COLORS.tertiary}
+              color={DEFAULT_COLORS.white}
             />
           }
           options={menuOptions()}

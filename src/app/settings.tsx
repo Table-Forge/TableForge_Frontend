@@ -7,7 +7,7 @@ import { DEFAULT_COLORS } from "@/src/theme/colors";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { ScrollView, TouchableOpacity, View, StyleSheet } from "react-native";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "@/src/context/auth";
 import { ModalBase } from "@/src/components/modals/modal-base/modal-base";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -15,6 +15,7 @@ import { useNavigation } from "expo-router";
 import { ParamListBase } from "@react-navigation/native";
 import { fonts } from "@/src/theme/fonts";
 import { SafeAreaView } from "react-native-safe-area-context";
+import MaterialDesignIcons from "@react-native-vector-icons/material-design-icons";
 
 export default function SettingsScreen() {
   const { signOut } = useAuth();
@@ -35,20 +36,14 @@ export default function SettingsScreen() {
     value,
     onPress,
   }: {
-    icon: string;
+    icon: React.ReactNode;
     label: string;
     value?: string;
     onPress?: () => void;
   }) => (
     <TouchableOpacity style={styles.settingItem} onPress={onPress}>
       <View style={styles.settingItemLeft}>
-        <View style={styles.iconCircle}>
-          <MaterialIcons
-            name={icon as any}
-            size={22}
-            color={DEFAULT_COLORS.white}
-          />
-        </View>
+        <View style={styles.iconCircle}>{icon}</View>
         <ThemedText style={styles.settingLabel}>{label}</ThemedText>
       </View>
       <View style={styles.settingItemRight}>
@@ -91,19 +86,37 @@ export default function SettingsScreen() {
             </View>
             <InfoCard style={{ backgroundColor: DEFAULT_COLORS.primary }}>
               <SettingItem
-                icon="lock-outline"
+                icon={
+                  <MaterialIcons
+                    name={"lock-outline"}
+                    size={22}
+                    color={DEFAULT_COLORS.white}
+                  />
+                }
                 label="Senha e Segurança"
                 onPress={() => navigation.navigate("password-security")}
               />
               <View style={styles.separator} />
               <SettingItem
-                icon="notifications-none"
+                icon={
+                  <MaterialIcons
+                    name={"notifications-none"}
+                    size={22}
+                    color={DEFAULT_COLORS.white}
+                  />
+                }
                 label="Notificações"
                 onPress={() => navigation.navigate("notifications-settings")}
               />
               <View style={styles.separator} />
               <SettingItem
-                icon="diamond"
+                icon={
+                  <MaterialDesignIcons
+                    name="crown"
+                    size={22}
+                    color={DEFAULT_COLORS.white}
+                  />
+                }
                 label="Meu Plano"
                 onPress={() => navigation.navigate("my-plan")}
               />
@@ -113,9 +126,27 @@ export default function SettingsScreen() {
               <ThemedText style={styles.sectionTitle}>Suporte</ThemedText>
             </View>
             <InfoCard style={{ backgroundColor: DEFAULT_COLORS.primary }}>
-              <SettingItem icon="info-outline" label="Sobre Nós" />
+              <SettingItem
+                icon={
+                  <MaterialIcons
+                    name={"info-outline"}
+                    size={22}
+                    color={DEFAULT_COLORS.white}
+                  />
+                }
+                label="Sobre Nós"
+              />
               <View style={styles.separator} />
-              <SettingItem icon="help-outline" label="Help Center" />
+              <SettingItem
+                icon={
+                  <MaterialIcons
+                    name={"help-outline"}
+                    size={22}
+                    color={DEFAULT_COLORS.white}
+                  />
+                }
+                label="Help Center"
+              />
             </InfoCard>
 
             <View style={styles.sectionHeader}>
@@ -123,7 +154,13 @@ export default function SettingsScreen() {
             </View>
             <InfoCard style={{ backgroundColor: DEFAULT_COLORS.primary }}>
               <SettingItem
-                icon="logout"
+                icon={
+                  <MaterialIcons
+                    name={"logout"}
+                    size={22}
+                    color={DEFAULT_COLORS.white}
+                  />
+                }
                 label="Sair da Conta"
                 onPress={() => setLogoutOpen(true)}
               />

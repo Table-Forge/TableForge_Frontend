@@ -13,8 +13,6 @@ import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { DEFAULT_COLORS } from "@/src/theme/colors";
 
 export default function Search() {
-  //adicionar update ao puxar pra baixo pra baixo, com loading
-
   const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   const { location, loading } = useLocation();
@@ -23,24 +21,25 @@ export default function Search() {
   }${location?.region || ""}`;
 
   return (
-    <MainContainer
-      style={{ flex: 1, paddingHorizontal: 10, paddingBottom: 10 }}
-    >
+    <MainContainer style={styles.container}>
       <View style={styles.topWrapper}>
         <View style={styles.locationWrapper}>
-          <ThemedText style={{ fontSize: 14 }}>Localização</ThemedText>
-          <View style={styles.locationText}>
+          <ThemedText weight="bold" style={styles.locationLabel}>
+            REGIÃO RASTREADA
+          </ThemedText>
+          <View style={styles.locationTextContainer}>
             {loading ? (
-              <ActivityIndicator color={DEFAULT_COLORS.white} />
+              <ActivityIndicator color={DEFAULT_COLORS.tertiary} size="small" />
             ) : (
               <>
                 <FontAwesome6
                   name="location-dot"
                   color={DEFAULT_COLORS.secondary}
                   size={16}
+                  style={styles.locationIcon}
                 />
-                <ThemedText style={{ fontSize: 16 }} weight="bold">
-                  {locationString}
+                <ThemedText style={styles.locationValue} weight="bold">
+                  {locationString || "Desconhecida"}
                 </ThemedText>
               </>
             )}
@@ -49,45 +48,97 @@ export default function Search() {
 
         <ActionButton
           variant="circle"
-          icon={<Entypo name="bell" size={22} color={DEFAULT_COLORS.white} />}
+          icon={<Entypo name="bell" size={20} color={DEFAULT_COLORS.white} />}
           onPress={() => navigation.navigate("notifications")}
+          style={styles.bellButton}
         />
       </View>
 
       <SearchBar />
 
       <FlatList
-        style={styles.campaignList}
         data={campaignList}
-        ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-        renderItem={({ item }) => <CampaignItem key={item.id} data={item} />}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListHeaderComponent={() => (
+          <View style={styles.listHeader}>
+            <ThemedText weight="bold" style={styles.listTitle}>
+              MESAS DISPONÍVEIS
+            </ThemedText>
+            <View style={styles.listTitleLine} />
+          </View>
+        )}
+        renderItem={({ item }) => <CampaignItem data={item} />}
       />
     </MainContainer>
   );
 }
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    backgroundColor: DEFAULT_COLORS.background,
+  },
   topWrapper: {
-    justifyContent: "space-between",
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
+    marginBottom: 20,
+    zIndex: 10,
   },
   locationWrapper: {
     flex: 1,
     justifyContent: "flex-start",
-    alignItems: "flex-start",
-    width: "100%",
   },
-  locationText: {
-    flex: 1,
+  locationLabel: {
+    fontSize: 11,
+    color: DEFAULT_COLORS.grays?._200 || "rgba(255,255,255,0.5)",
+    letterSpacing: 1.5,
+    marginBottom: 4,
+  },
+  locationTextContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 6,
   },
-  campaignList: {
-    borderRadius: 8,
-    width: "100%",
+  locationIcon: {
+    textShadowColor: "rgba(126, 135, 226, 0.5)",
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 8,
+  },
+  locationValue: {
+    fontSize: 18,
+    color: DEFAULT_COLORS.white,
+  },
+  bellButton: {
+    backgroundColor: "rgba(26, 26, 46, 0.8)",
+    borderWidth: 1,
+    borderColor: "rgba(126, 135, 226, 0.3)",
+  },
+  listContent: {
+    paddingBottom: 40,
+  },
+  separator: {
+    height: 16,
+  },
+  listHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 16,
+    gap: 12,
+  },
+  listTitle: {
+    fontSize: 12,
+    color: DEFAULT_COLORS.tertiary,
+    letterSpacing: 2,
+  },
+  listTitleLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "rgba(251, 69, 1, 0.2)",
   },
 });
