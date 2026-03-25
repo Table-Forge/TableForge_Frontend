@@ -6,6 +6,7 @@ import { UserService } from "@/src/features/users/services/users.services";
 import {
   IUpdatePassword,
   IUser,
+  IUserUpdateOutput,
 } from "@/src/features/users/schemas/user.schema";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
@@ -54,6 +55,29 @@ export const useUsersMutation = () => {
     },
   });
 
+  const updateUserMutation = useMutation({
+    mutationFn: (data: IUserUpdateOutput) => UserService.update(data),
+    onSuccess: async () => {
+      Toast.show({
+        type: "success",
+        text1: "Edição concluída! 🎉",
+        text2: "Seus dados foram editados com sucesso!",
+        position: "top",
+        visibilityTime: 4000,
+      });
+
+      router.back();
+    },
+    onError: (error: any) => {
+      const message = error.response?.data?.Message || "Erro ao editar conta";
+      Toast.show({
+        type: "error",
+        text1: "Ops! Algo deu errado",
+        text2: message,
+      });
+    },
+  });
+
   const updatePasswordMutation = useMutation({
     mutationFn: (data: IUpdatePassword) => UserService.updatePassword(data),
     onSuccess: async () => {
@@ -84,5 +108,8 @@ export const useUsersMutation = () => {
     isLoadingNewUserMutation: newUserMutation.isPending,
     updatePasswordMutation,
     isUpdatingPassword: updatePasswordMutation.isPending,
+
+    updateUserMutation,
+    isUpdatingUser: updateUserMutation.isPending,
   };
 };

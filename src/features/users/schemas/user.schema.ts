@@ -1,49 +1,47 @@
-import { dateOptional } from "@/src/utils/custom-schema-validations";
+import {
+  dateOptional,
+  dateRequired,
+  emailRequired,
+  stringRequired,
+} from "@/src/utils/custom-schema-validations";
 import { z } from "zod";
 
-export const UserSchema = z
-  .object({
-    id: z.number().optional(),
-    createdAt: dateOptional,
-    username: z.string(),
-    nickname: z.string(),
-    email: z.string().email("E-mail inválido"),
-    password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
-    confirmPassword: z.string().optional(),
-    status: z.string().optional(),
-    gender: z.string().optional(),
-    birthDate: z.string().transform((val) => new Date(val)),
-    avatarUrl: z.union([z.string()]).optional(),
-  })
-  .superRefine((data, ctx) => {
-    if (!data.password) {
-      ctx.addIssue({
-        code: "custom",
-        message: "A nova senha é obrigatória.",
-        path: ["password"],
-      });
-    }
+const BaseUserSchema = z.object({
+  id: z.number().optional(),
+  username: stringRequired,
+  nickname: stringRequired,
+  email: emailRequired,
+  gender: z.string().optional(),
+  birthDate: dateRequired,
+  avatarUrl: z.string().optional(),
+});
 
-    if (!data.confirmPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "A confirmação de senha é obrigatória.",
-        path: ["confirmPassword"],
-      });
-    }
+export const UserSchema = BaseUserSchema.extend({
+  createdAt: dateOptional,
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  confirmPassword: z.string().optional(),
+  status: z.string().optional(),
+}).superRefine((data, ctx) => {
+  if (!data.password) {
+    ctx.addIssue({
+      code: "custom",
+      message: "A nova senha é obrigatória.",
+      path: ["password"],
+    });
+  }
 
-    if (
-      data.password &&
-      data.confirmPassword &&
-      data.password !== data.confirmPassword
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        message: "As senhas devem ser iguais.",
-        path: ["confirmPassword"],
-      });
-    }
-  });
+  if (data.password !== data.confirmPassword) {
+    ctx.addIssue({
+      code: "custom",
+      message: "As senhas devem ser iguais.",
+      path: ["confirmPassword"],
+    });
+  }
+});
+
+export const UserUpdateSchema = BaseUserSchema.partial().extend({
+  gender: stringRequired,
+});
 
 export const RecoverPasswordSchema = z.object({
   email: z
@@ -77,3 +75,5 @@ export const UpdatePasswordSchema = z
 export type IUser = z.infer<typeof UserSchema>;
 export type IRecoverPassword = z.infer<typeof RecoverPasswordSchema>;
 export type IUpdatePassword = z.infer<typeof UpdatePasswordSchema>;
+export type IUserUpdateInput = z.input<typeof UserUpdateSchema>;
+export type IUserUpdateOutput = z.infer<typeof UserUpdateSchema>;

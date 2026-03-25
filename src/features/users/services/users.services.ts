@@ -2,6 +2,7 @@ import { api } from "../../api";
 import {
   IUpdatePassword,
   IUser,
+  IUserUpdateOutput,
   UserSchema,
 } from "@/src/features/users/schemas/user.schema";
 
@@ -23,10 +24,8 @@ export const UserService = {
     return data;
   },
 
-  update: async (params: IUser) => {
-    const { data } = await api.put(`${ENDPOINT}/${params.id}`, {
-      params,
-    });
+  update: async (payload: IUserUpdateOutput) => {
+    const { data } = await api.put(`${ENDPOINT}`, payload);
     return data;
   },
 

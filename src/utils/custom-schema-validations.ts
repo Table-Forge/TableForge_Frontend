@@ -5,25 +5,18 @@ import {
   FILE_ERROR_MESSAGE,
 } from "../components/error-message/error-message.constant";
 
-const stringRequired = z.preprocess(
-  (arg) => {
-    if (arg === null || arg === undefined) return "";
-    return arg;
-  },
-  z
-    .string()
-    .refine((val) => val.trim() !== "", { message: ERROR_MESSAGE.required }),
-);
+const stringRequired = z
+  .string({ message: ERROR_MESSAGE.required })
+  .catch("")
+  .transform((val) => val.trim())
+  .refine((val) => val !== "", { message: ERROR_MESSAGE.required });
 
-const numberRequired = z.preprocess(
-  (arg) => {
-    if (arg === null || arg === undefined) return 0;
-    return arg;
-  },
-  z.coerce
-    .number()
-    .refine((val) => val > 0, { message: ERROR_MESSAGE.required }),
-);
+const numberRequired = z.coerce
+  .number({
+    message: ERROR_MESSAGE.required,
+  })
+  .catch(0)
+  .refine((val) => val > 0, { message: ERROR_MESSAGE.required });
 
 const stringOrStringArrayRequired = z.union([
   z.string(),
@@ -53,40 +46,35 @@ const numberArrayRequired = z
     message: ERROR_MESSAGE.required,
   });
 
-const dateRequired = z.preprocess(
-  (arg) => {
-    if (arg === null || arg === undefined || arg === "") {
-      return "";
+const dateRequired = z
+  .union([z.string(), z.date()])
+  .transform((val) => {
+    if (!val) return "";
+
+    if (val instanceof Date) {
+      if (isNaN(val.getTime())) return "invalid";
+      return dayjs(val).format("YYYY-MM-DD");
     }
 
-    if (arg instanceof Date) {
-      if (isNaN(arg.getTime())) return "invalid";
-      return arg.toISOString().split("T")[0];
-    }
+    return val;
+  })
+  .refine((val) => val.trim() !== "", {
+    message: ERROR_MESSAGE.required,
+  })
+  .refine((val) => dayjs(val, "YYYY-MM-DD", true).isValid(), {
+    message: ERROR_MESSAGE.validate,
+  });
 
-    return arg;
-  },
-  z.union([
+const emailRequired = z
+  .string()
+  .catch("")
+  .transform((val) => val.trim())
+  .pipe(
     z
       .string()
-      .trim()
-      .nonempty(ERROR_MESSAGE.required)
-      .refine((val) => dayjs(val, "YYYY-MM-DD", true).isValid(), {
-        message: ERROR_MESSAGE.validate,
-      }),
-    z.date().refine((val) => dayjs(val, "YYYY-MM-DD", true).isValid(), {
-      message: ERROR_MESSAGE.validate,
-    }),
-  ]),
-);
-
-const emailRequired = z.preprocess(
-  (arg) => (typeof arg === "string" ? arg.trim() : ""),
-  z
-    .string()
-    .min(1, { message: ERROR_MESSAGE.required })
-    .email({ message: "Formato de e-mail inválido" }),
-);
+      .min(1, { message: ERROR_MESSAGE.required })
+      .email({ message: "Formato de e-mail inválido" }),
+  );
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_FILE_TYPES = ["application/pdf", "image/jpeg", "image/png"];
@@ -151,25 +139,23 @@ const numberOptional = z.coerce.number().optional();
 
 const stringOptional = z.coerce.string().optional();
 
-const dateOptional = z.preprocess(
-  (arg) => {
-    if (arg === null || arg === undefined || arg === "") {
-      return undefined;
+const dateOptional = z
+  .union([z.string(), z.date()])
+  .nullish()
+  .transform((val) => {
+    if (!val || val === "") return undefined;
+
+    if (val instanceof Date) {
+      return isNaN(val.getTime()) ? undefined : val;
     }
 
-    if (arg instanceof Date) {
-      return isNaN(arg.getTime()) ? undefined : arg;
-    }
-
-    if (typeof arg === "string") {
-      const parsed = dayjs(arg, "YYYY-MM-DD", true);
+    if (typeof val === "string") {
+      const parsed = dayjs(val, "YYYY-MM-DD", true);
       return parsed.isValid() ? parsed.toDate() : undefined;
     }
 
     return undefined;
-  },
-  z.union([z.string().optional(), z.date().optional()]),
-);
+  });
 
 const stringOrStringArrayOptional = z
   .union([z.string(), z.array(z.string())])

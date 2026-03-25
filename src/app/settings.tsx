@@ -88,6 +88,17 @@ export default function SettingsScreen() {
               <SettingItem
                 icon={
                   <MaterialIcons
+                    name="person-outline"
+                    size={22}
+                    color={DEFAULT_COLORS.white}
+                  />
+                }
+                label="Meus Dados"
+                onPress={() => navigation.navigate("my-account")}
+              />
+              <SettingItem
+                icon={
+                  <MaterialIcons
                     name={"lock-outline"}
                     size={22}
                     color={DEFAULT_COLORS.white}

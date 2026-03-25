@@ -14,24 +14,35 @@ import { ErrorMessage } from "@/src/components/error-message/error-message";
 interface InputProps extends TextInputProps {
   error?: string;
   isPassword?: boolean;
+  disabled?: boolean;
 }
 
 export const Input = forwardRef<TextInput, InputProps>(
-  ({ error, isPassword, style, ...props }, ref) => {
+  ({ error, isPassword, style, disabled, ...props }, ref) => {
     const [showPassword, setShowPassword] = useState(isPassword);
 
     return (
-      <>
-        <View style={[styles.inputContainer, error ? styles.inputError : null]}>
+      <View style={styles.wrapper}>
+        <View
+          style={[
+            styles.inputContainer,
+            error ? styles.inputError : null,
+            disabled && styles.inputDisabled,
+          ]}
+        >
           <TextInput
             ref={ref}
-            style={[styles.input, style]}
-            placeholderTextColor="#999"
+            style={[styles.input, style, disabled && styles.inputTextDisabled]}
+            placeholderTextColor={
+              disabled ? "rgba(153, 153, 153, 0.4)" : "#999"
+            }
             secureTextEntry={showPassword}
+            editable={!disabled}
+            selectTextOnFocus={!disabled}
             {...props}
           />
 
-          {isPassword && (
+          {isPassword && !disabled && (
             <TouchableOpacity
               onPress={() => setShowPassword(!showPassword)}
               style={styles.icon}
@@ -43,10 +54,20 @@ export const Input = forwardRef<TextInput, InputProps>(
               />
             </TouchableOpacity>
           )}
+
+          {disabled && isPassword && (
+            <View style={styles.icon}>
+              <Ionicons
+                name="lock-closed-outline"
+                size={18}
+                color="rgba(255,255,255,0.3)"
+              />
+            </View>
+          )}
         </View>
 
         {error && <ErrorMessage text={error} />}
-      </>
+      </View>
     );
   },
 );
@@ -54,6 +75,9 @@ export const Input = forwardRef<TextInput, InputProps>(
 Input.displayName = "Input";
 
 const styles = StyleSheet.create({
+  wrapper: {
+    marginBottom: 4,
+  },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -63,14 +87,26 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingHorizontal: 15,
     height: 50,
-    marginBottom: 4,
   },
   input: {
     flex: 1,
     color: DEFAULT_COLORS.white,
     ...fonts.regular,
     fontSize: 16,
+    height: "100%",
   },
-  inputError: { borderColor: DEFAULT_COLORS.danger },
-  icon: { marginLeft: 10 },
+  inputError: {
+    borderColor: DEFAULT_COLORS.danger,
+  },
+  inputDisabled: {
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderColor: "rgba(255, 255, 255, 0.2)",
+    opacity: 0.7,
+  },
+  inputTextDisabled: {
+    color: "rgba(255, 255, 255, 0.4)",
+  },
+  icon: {
+    marginLeft: 10,
+  },
 });
