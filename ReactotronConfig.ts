@@ -1,8 +1,7 @@
-import { NativeModules } from "react-native";
 import Reactotron from "reactotron-react-native";
 
 Reactotron.configure({
-  name: "GamePartyFinder",
+  name: "TableForge",
 })
   .useReactNative({
     asyncStorage: false,
