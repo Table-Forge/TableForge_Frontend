@@ -1,27 +1,29 @@
-import { ICampaign } from "@/src/interfaces";
+import { SwordDiceIcon } from "@/src/components/icons";
+import { ICampaign } from "@/src/features/campaigns/schemas/campaign.schema";
 import { DEFAULT_COLORS } from "@/src/theme/colors";
-import { Image, Pressable, View, StyleSheet } from "react-native";
-
+import { useRouter } from "expo-router";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import Fontisto from "react-native-vector-icons/Fontisto";
-
-import { useRouter } from "expo-router";
 import { Tag } from "../tag/tag";
 import { ThemedText } from "../themed-text/themed-text";
-import { SwordDiceIcon } from "@/src/components/icons";
 
 interface IProps {
   data: ICampaign;
   cardColor?: string;
   tagColor?: string;
+  variant?: "list" | "tinder";
 }
+
 export const CampaignItem = ({
   data,
   cardColor = DEFAULT_COLORS.primary,
   tagColor = DEFAULT_COLORS.tertiary_30,
+  variant = "list",
 }: IProps) => {
   const router = useRouter();
+  const isTinder = variant === "tinder";
 
   return (
     <Pressable
@@ -32,111 +34,170 @@ export const CampaignItem = ({
         })
       }
       style={({ pressed }) => [
-        styles.wrapper,
-        pressed && { transform: [{ scale: 0.98 }], opacity: 0.9 },
+        styles.wrapperBase,
+        isTinder ? styles.wrapperTinder : styles.wrapperList,
+        pressed && { transform: [{ scale: 0.985 }], opacity: 0.92 },
         { backgroundColor: cardColor },
       ]}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <View>
-          <ThemedText
-            weight="bold"
-            style={{ fontSize: 18, color: DEFAULT_COLORS.white }}
-          >
-            {data.title}
-          </ThemedText>
+      {isTinder ? (
+        <>
+          <View style={styles.tinderImageWrapper}>
+            <Image style={styles.tinderImage} source={{ uri: data.image }} />
 
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 4,
-              marginTop: 2,
-            }}
-          >
-            <SwordDiceIcon size={24} color={DEFAULT_COLORS.tertiary} />
-            <ThemedText
-              style={{
-                fontSize: 12,
-                color: DEFAULT_COLORS.white,
-                opacity: 0.6,
-              }}
-            >
-              por {data.gameMaster || "Mestre Desconhecido"}
+            <View style={styles.tinderImageDim} />
+            <View style={styles.tinderImageBottomShade} />
+
+            <View style={styles.tinderTitleBlock}>
+              <ThemedText
+                weight="bold"
+                numberOfLines={2}
+                style={styles.tinderTitleText}
+              >
+                {data.title}
+              </ThemedText>
+
+              <View style={styles.masterRow}>
+                <SwordDiceIcon size={20} color={DEFAULT_COLORS.tertiary} />
+                <ThemedText style={styles.masterText}>
+                  por {data.gameMaster || "Mestre Desconhecido"}
+                </ThemedText>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.tinderBody}>
+            <ThemedText fontSize={14} numberOfLines={3} style={styles.summaryText}>
+              {data.summary}
             </ThemedText>
+
+            <View style={styles.tags}>
+              <Tag
+                icon={() => (
+                  <FontAwesome6 name="location-dot" size={12} color={tagColor} />
+                )}
+                text={data.location}
+              />
+              <Tag
+                icon={() => (
+                  <FontAwesome5 name="book-reader" size={12} color={tagColor} />
+                )}
+                text={data.system}
+              />
+              <Tag
+                icon={() => <Fontisto name="persons" size={12} color={tagColor} />}
+                text={`${data.currentPartySize}/${data.maxPartySize}`}
+              />
+            </View>
           </View>
-        </View>
-      </View>
+        </>
+      ) : (
+        <>
+          <View style={styles.headerList}>
+            <View>
+              <ThemedText weight="bold" style={styles.listTitleText}>
+                {data.title}
+              </ThemedText>
 
-      <View style={styles.bottomWrapper}>
-        <View style={styles.imageWrapper}>
-          <Image style={styles.image} source={{ uri: data.image }} />
-        </View>
-
-        <View style={styles.contentWrapper}>
-          <ThemedText
-            fontSize={13}
-            numberOfLines={2}
-            style={{ opacity: 0.8, color: DEFAULT_COLORS.white }}
-          >
-            {data.summary}
-          </ThemedText>
-
-          <View style={styles.tags}>
-            <Tag
-              icon={() => (
-                <FontAwesome6 name="location-dot" size={12} color={tagColor} />
-              )}
-              text={data.location}
-            />
-            <Tag
-              icon={() => (
-                <FontAwesome5 name="book-reader" size={12} color={tagColor} />
-              )}
-              text={data.system}
-            />
-            <Tag
-              icon={() => (
-                <Fontisto name="persons" size={12} color={tagColor} />
-              )}
-              text={`${data.currentPartySize}/${data.maxPartySize}`}
-            />
+              <View style={styles.masterRow}>
+                <SwordDiceIcon size={24} color={DEFAULT_COLORS.tertiary} />
+                <ThemedText style={styles.masterText}>
+                  por {data.gameMaster || "Mestre Desconhecido"}
+                </ThemedText>
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
+
+          <View style={styles.bottomWrapper}>
+            <View style={styles.imageWrapper}>
+              <Image style={styles.image} source={{ uri: data.image }} />
+            </View>
+
+            <View style={styles.contentWrapper}>
+              <ThemedText
+                fontSize={13}
+                numberOfLines={2}
+                style={styles.summaryText}
+              >
+                {data.summary}
+              </ThemedText>
+
+              <View style={styles.tags}>
+                <Tag
+                  icon={() => (
+                    <FontAwesome6 name="location-dot" size={12} color={tagColor} />
+                  )}
+                  text={data.location}
+                />
+                <Tag
+                  icon={() => (
+                    <FontAwesome5 name="book-reader" size={12} color={tagColor} />
+                  )}
+                  text={data.system}
+                />
+                <Tag
+                  icon={() => (
+                    <Fontisto name="persons" size={12} color={tagColor} />
+                  )}
+                  text={`${data.currentPartySize}/${data.maxPartySize}`}
+                />
+              </View>
+            </View>
+          </View>
+        </>
+      )}
     </Pressable>
   );
 };
 
 export const styles = StyleSheet.create({
-  wrapper: {
+  wrapperBase: {
+    width: "100%",
+    borderRadius: 16,
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 12,
+    overflow: "hidden",
+  },
+  wrapperList: {
     flexDirection: "column",
     gap: 12,
     padding: 12,
-    borderRadius: 12,
-    width: "100%",
     marginBottom: 10,
-
     borderLeftWidth: 4,
     borderLeftColor: DEFAULT_COLORS.tertiary,
-
-    elevation: 4,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+  },
+  wrapperTinder: {
+    height: "100%",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.1)",
+  },
+  headerList: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  listTitleText: {
+    fontSize: 18,
+    color: DEFAULT_COLORS.white,
+  },
+  masterRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginTop: 3,
+  },
+  masterText: {
+    fontSize: 12,
+    color: DEFAULT_COLORS.white,
+    opacity: 0.72,
   },
   bottomWrapper: {
-    flex: 1,
-    justifyContent: "space-between",
     flexDirection: "row",
     gap: 10,
+    justifyContent: "space-between",
   },
   imageWrapper: {
     width: 100,
@@ -151,16 +212,61 @@ export const styles = StyleSheet.create({
     height: "100%",
     objectFit: "cover",
   },
-  tags: {
-    flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 5,
-  },
   contentWrapper: {
     flex: 1,
     justifyContent: "space-between",
     gap: 10,
     width: "100%",
+  },
+  summaryText: {
+    opacity: 0.85,
+    color: DEFAULT_COLORS.white,
+  },
+  tags: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 6,
+  },
+  tinderImageWrapper: {
+    height: "64%",
+    minHeight: 260,
+    position: "relative",
+  },
+  tinderImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  },
+  tinderImageDim: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.2)",
+  },
+  tinderImageBottomShade: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 120,
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  tinderTitleBlock: {
+    position: "absolute",
+    left: 14,
+    right: 14,
+    bottom: 14,
+  },
+  tinderTitleText: {
+    fontSize: 24,
+    lineHeight: 28,
+    color: DEFAULT_COLORS.white,
+  },
+  tinderBody: {
+    flex: 1,
+    paddingHorizontal: 14,
+    paddingTop: 14,
+    paddingBottom: 16,
+    justifyContent: "space-between",
+    gap: 14,
+    backgroundColor: "rgba(26, 26, 46, 0.98)",
   },
 });
